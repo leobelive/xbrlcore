@@ -1,4 +1,4 @@
-/xbrlcore/webapp/WEB-INF/classes
-/xbrlcore/.settings
-/xbrlcore/.classpath
-/xbrlcore/.project
+/webapp/WEB-INF/classes
+/.settings
+/.classpath
+/.project
