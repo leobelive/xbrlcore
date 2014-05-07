@@ -12,10 +12,9 @@
 			http://www.springframework.org/schema/aop 
 			http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 			http://www.springframework.org/schema/tx 
-                        http://www.springframework.org/schema/tx/spring-tx.xsd
-                        http://www.springframework.org/schema/data/mongo 
-                        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd                     
-			">
+            http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/data/mongo 
+            http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
 	<bean id="dataSourceNoUse" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

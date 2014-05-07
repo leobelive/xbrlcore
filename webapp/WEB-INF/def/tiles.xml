@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="base.definition" template="/WEB-INF/jsp/template/mainTemplate.jsp">
+		<put-attribute name="content" value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/jsp/common/sidebar.jsp" />
+		<!--<put-attribute name="body" value="" /> -->
+	</definition>
+
+	<!-- 首页 -->
+	<definition name="indexpage" template="/WEB-INF/jsp/common/indexpage.jsp" />
+	<definition name="loginpage" template="/WEB-INF/jsp/loginpage.jsp" />
+	<definition name="registerpage" template="/WEB-INF/jsp/registerpage.jsp" />
+
+	<!-- 其他页面 -->
+	<definition name="u/*" extends="base.definition">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+</tiles-definitions>
