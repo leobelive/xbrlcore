@@ -5,3 +5,5 @@
 /.DS_Store
 /webapp/WEB-INF/.gitignore
 /webapp/META-INF/MANIFEST.MF
+/webapp/.DS_Store
+
