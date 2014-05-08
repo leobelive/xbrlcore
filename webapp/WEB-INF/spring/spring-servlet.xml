@@ -8,9 +8,10 @@
 			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	<!-- 把静态页面配制成资源，不用MVC映射 -->
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
-	<mvc:resources mapping="/styles/**" location="/WEB-INF/css/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
 	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
 	<mvc:resources mapping="/pages/**" location="/WEB-INF/jsp/" />
+	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/"/>
 
 	<!-- 建立页面展示的映射，映射到相应的文件夹和文件后缀 -->
 	<bean id="viewResolver"
