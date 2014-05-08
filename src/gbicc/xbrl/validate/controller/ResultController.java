@@ -26,11 +26,35 @@ public class ResultController {
 
 	protected static Logger logger = Logger.getLogger("controller");
 
+	/**
+	 * 首页跳转
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/")
 	public String IndexPage(Model model) {
 		return "welcome";
 	}
 
+	/**
+	 * 校验首页跳转
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/validate")
+	public String validateIndex(Model model) {
+		return "validate";
+	}
+
+	/**
+	 * 校验功能方法
+	 * 
+	 * @param p
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/validate/{p}")
 	public String FirstPage(@PathVariable Integer p, Model model) {
 		// Pageable pp = new PageRequest(p, 10);
