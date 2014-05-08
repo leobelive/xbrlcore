@@ -36,28 +36,8 @@
 
 	<context:component-scan base-package="gbicc" />
 
-	<!-- <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
-		<property name="persistenceUnitName" value="whooperJPA" /> </bean> <bean 
-		id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
-		<property name="entityManagerFactory" ref="entityManagerFactory" /> </bean> -->
-	<!--启用annotation事务 <tx:annotation-driven transaction-manager="transactionManager" 
-		/> -->
-	<!-- 配置jpa实例类型所在的package目录 <jpa:repositories base-package="cn.whooper.repository" 
-		repository-impl-postfix="Repository" /> <aop:aspectj-autoproxy /> -->
-	<!-- JMX服务 -->
 	<context:mbean-export />
 
-	<!-- 运行脚本初始化内存数据库 -->
-	<!--jdbc:initialize-database data-source="quartzDataSource" ignore-failures="ALL"> 
-		<jdbc:script location="classpath:sql/h2/quartz.sql" /> </jdbc:initialize-database -->
-
-	<!-- 数据加载 -->
-	<!--bean class="org.springside.modules.test.data.DefaultDataInitializer" 
-		lazy-init="false"> <property name="dataSource" ref="dataSource"/> <property 
-		name="defaultDataFile" value="/data/sample-data.xml" /> </bean -->
-
 	<import resource="application-mvc.xml" />
-	<!--import resource="application-tx.xml" / -->
-	<import resource="application-datasource.xml" />
 
 </beans>

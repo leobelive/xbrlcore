@@ -26,12 +26,17 @@ public class ResultController {
 
 	protected static Logger logger = Logger.getLogger("controller");
 
-	@RequestMapping(value = "/list")
-	public String IndexPage(@PathVariable Integer p, Model model) {
+	@RequestMapping(value = "/")
+	public String IndexPage(Model model) {
+		return "welcome";
+	}
+
+	@RequestMapping(value = "/validate/{p}")
+	public String FirstPage(@PathVariable Integer p, Model model) {
 		// Pageable pp = new PageRequest(p, 10);
 		List<String> result = resultService.returnErrorList();
 
 		model.addAttribute("validate_results", result);
-		return "/validateresults";
+		return "validateresults";
 	}
 }

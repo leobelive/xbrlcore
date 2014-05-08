@@ -42,15 +42,6 @@
 		</property>
 	</bean>
 
-	<!-- mvc拦截器 <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**" 
-		/> <bean class="cn.web.interceptor.MyInterceptor" /> </mvc:interceptor> </mvc:interceptors> -->
-
-	<!-- 扫描注解组件并且自动的注入spring beans中. 例如,他会扫描@Controller和@Service下的文件.所以确保此base-package设置正确. -->
-	<!-- 配置注解驱动的Spring MVC Controller 的编程模型.注:次标签只在 Servlet MVC工作! <mvc:resources 
-		mapping="/js/**" location="/static/" /> <mvc:resources mapping="/css/**" 
-		location="/static/css/" /> <mvc:resources mapping="/images/**" location="/static/images/" 
-		/> -->
-
 	<!-- JMX服务 -->
 	<context:mbean-export />
 </beans>
