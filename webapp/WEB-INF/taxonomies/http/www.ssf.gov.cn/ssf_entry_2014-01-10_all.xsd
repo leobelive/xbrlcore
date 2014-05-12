@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ssf.gov.cn/ssf/entry/all/2014-01-10" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:all="http://www.ssf.gov.cn/ssf/entry/all/2014-01-10" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:num="http://www.xbrl.org/dtr/type/numeric" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnwt_ser/2014-01-10" schemaLocation="jnwt/jnser/ssf_jnwt_ser_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnir/jnwt_iar/2014-01-10" schemaLocation="jnwt/jnir/ssf_jnwt_iar_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnir/jnwt_imr/2014-01-10" schemaLocation="jnwt/jnir/ssf_jnwt_imr_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnir/jnwt_iqr/2014-01-10" schemaLocation="jnwt/jnir/ssf_jnwt_iqr_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnir/jnwt_idr/2014-01-10" schemaLocation="jnwt/jnir/ssf_jnwt_idr_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnir/jnwt_iwr/2014-01-10" schemaLocation="jnwt/jnir/ssf_jnwt_iwr_2014-01-10.xsd"/>
+  <import namespace="http://www.ssf.gov.cn/ssf/jnwt/jnwt_tr/tr01/2014-01-10" schemaLocation="jnwt/jntr/ssf_jnwt_tr01_2014-01-10.xsd"/>
+</schema>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ssf.gov.cn/ssf/type/2013-03-31" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:type="http://www.ssf.gov.cn/ssf/type/2013-03-31">
+  <element name="SheBaoZuHeDaiMa" id="type_SheBaoZuHeDaiMa" type="type:SheBaoZuHeDaiMaType"/>
+  <simpleType name="SheBaoZuHeDaiMaType">
+    <restriction base="token"/>	
+  </simpleType>
+</schema>

@@ -34,7 +34,7 @@
 	<!-- 激活spring的注解. -->
 	<context:annotation-config />
 
-	<context:component-scan base-package="gbicc" />
+	<context:component-scan base-package="net.gbicc" />
 
 	<context:mbean-export />
 

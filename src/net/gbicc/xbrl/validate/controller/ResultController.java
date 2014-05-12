@@ -1,10 +1,12 @@
-package gbicc.xbrl.validate.controller;
+package net.gbicc.xbrl.validate.controller;
 
+import java.io.IOException;
 import java.util.List;
 
-import gbicc.xbrl.validate.service.ResultService;
-
 import javax.annotation.Resource;
+
+import net.gbicc.xbrl.core.XbrlMessage;
+import net.gbicc.xbrl.validate.service.ResultService;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -58,9 +60,12 @@ public class ResultController {
 	@RequestMapping(value = "/validate/{p}")
 	public String FirstPage(@PathVariable Integer p, Model model) {
 		// Pageable pp = new PageRequest(p, 10);
-		List<String> result = resultService.returnErrorList();
-
-		model.addAttribute("validate_results", result);
+		try {
+			List<XbrlMessage> result = resultService.returnErrorList();
+			model.addAttribute("validate_results", result);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		return "validateresults";
 	}
 }
