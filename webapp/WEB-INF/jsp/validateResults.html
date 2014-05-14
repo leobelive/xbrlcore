@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>XBRL core function implement</title>
+<link rel="stylesheet" type="text/css" href="css/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/icon.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<div style="margin: 20px 0;"></div>
+	<table class="easyui-datagrid" title="校验结果"
+		style="width: 1180px; height: 600px; align: center"
+		data-options="singleSelect:true,collapsible:true,url:'validate/1',method:'get'">
+		<thead>
+			<tr>
+				<th data-options="field:'message',width:1200"></th>
+			</tr>
+		</thead>
+	</table>
+</body>
+</html>
