@@ -44,7 +44,7 @@ public class ValidateService {
 		TaxonomyInfo ti = getTaxonomyConfig();
 
 		// 开始校验
-		List<ValidateObject> messageList = validate(instance,
+		List<ValidateObject> messageList = ValidateUtils.validate(instance,
 				ti.getTaxonomyBase(), ti.getImportLocation(), fileName);
 		return messageList;
 	}
@@ -80,106 +80,4 @@ public class ValidateService {
 		return buffer;
 	}
 
-	/**
-	 * 对实例文档进行校验
-	 * 
-	 * 按照分类标准的规则
-	 * 
-	 * 
-	 * @param content
-	 *            实例文档的二进制代码
-	 * @param taxonomyBase
-	 *            分类标准的根地址
-	 * @param location
-	 *            分类标准的引用路径
-	 * @param instanceId
-	 *            文件名称，用以区分实例文档实力的唯一性
-	 * @return
-	 */
-	public List<ValidateObject> validate(byte[] content, String taxonomyBase,
-			String location, String instanceId) {
-		if (content != null && content.length > 0) {
-			TaxonomyReader taxonomyReader = TaxonomyReader.getInstance();
-			taxonomyReader.setCacheBase(taxonomyBase);
-			TaxonomySet taxonomySet = taxonomyReader.getTaxonomySet(location);
-			InstanceResolver instanceResolver = new InstanceResolver(
-					taxonomySet, content, instanceId);
-			XbrlInstance xbrlInstance = instanceResolver.getXbrlInstance();
-			List<XbrlMessage> messages = InstanceResolver.validateInstance(
-					xbrlInstance, true);
-
-			// 对校验的结果进行处理，组成易于阅读的列表
-			List<ValidateObject> validateMessages = new ArrayList<ValidateObject>();
-			for (XbrlMessage xm : messages) {
-				Object tag = xm.getTag();
-				if (tag != null && tag instanceof CalcDetail) {
-					CalcDetail calcDetail = (CalcDetail) tag;
-					StringBuilder sbDes = new StringBuilder();
-					if ("129".equals(xm.getId())) {
-						String title = "等式不成立";
-						String detail = ValidateUtils.getCalculationDesc(
-								calcDetail, xbrlInstance.getOwnerDTS());
-						sbDes.append(title);
-						sbDes.append("--");
-						sbDes.append(detail);
-					}
-					String funRight = ValidateUtils.getFunctionDescription(
-							calcDetail, xbrlInstance.getOwnerDTS());
-					sbDes.append(funRight);
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage(sbDes.toString());
-					validateMessages.add(vo);
-					continue;
-				}
-				List<String> elementsDefinition = ValidateUtils
-						.initElementscodes();
-				if (elementsDefinition.contains(xm.getId())) {
-					String detail = xm.getMessage().replace("数据项 ", "")
-							.replace("缺失schema元素定义", "");
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的元素定义--" + detail.replace(":", "_"));
-					validateMessages.add(vo);
-					continue;
-				}
-				List<String> contents = ValidateUtils.initContentCodes();
-				if (contents.contains(xm.getId())) {
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的上下文定义--"
-							+ xm.getMessage().replace(":", "_"));
-					validateMessages.add(vo);
-					continue;
-				}
-				List<String> props = ValidateUtils.initPropertyCodes();
-				if (props.contains(xm.getId())) {
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的属性定义--"
-							+ xm.getMessage().replace(":", "_"));
-					validateMessages.add(vo);
-					continue;
-				}
-				List<String> tples = ValidateUtils.initTupleCodes();
-				if (tples.contains(xm.getId())) {
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的数据表格定义-"
-							+ xm.getMessage().replace(":", "_"));
-					validateMessages.add(vo);
-					continue;
-				}
-				List<String> others = ValidateUtils.initTupleCodes();
-				if (others.contains(xm.getId())) {
-					String msg = xm.getMessage();
-					if (msg.indexOf(":") > 0) {
-						msg = msg.substring(0, msg.indexOf(":") - 1);
-					}
-					ValidateObject vo = new ValidateObject();
-					vo.setMessage("元素的内容存在错误--" + msg.replace(":", "_"));
-					validateMessages.add(vo);
-					continue;
-				}
-			}
-			return validateMessages;
-		} else {
-			return null;
-		}
-	}
 }

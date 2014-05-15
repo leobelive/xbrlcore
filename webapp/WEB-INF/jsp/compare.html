@@ -2,7 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>XBRL core function implement</title>
+
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/easyui.css" rel="stylesheet">
@@ -22,17 +25,26 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+    $.getJSON('compare/1/1', function(data) {
+      var obj = eval('(' + data +')');
+	  var xxx ="<span>" + obj[0].changedElements + "</span>";
+	  document.getElementById('compareresult').innerHTML = xxx;
+	})
+</script>
 </head>
-<body>
-	<div style="margin: 20px 0;"></div>
-	<table class="easyui-datagrid" title="校验结果"
-		style="width: 1180px; height: 600px; align: center"
-		data-options="singleSelect:true,collapsible:true,url:'validate/1',method:'get'">
-		<thead>
-			<tr>
-				<th data-options="field:'message',width:1200"></th>
-			</tr>
-		</thead>
-	</table>
+<body style="background: #ddccdd" onload="$('#w').window('close')">
+	<div id="header">
+		<div id="header-inner">
+			<h1>XBRL Core function</h1>
+		</div>
+	</div>
+	<div id="content1" style="height:520px">
+		<h5>请选择比较的文件1:</h5><input type="file" />
+		<h5>请选择比较的文件2:</h5><input type="file" />
+		<div style="height:30px"></div>
+		<div id="compareresult" style="width:200;height:52px">dddd</div>		    
+	</div>	
+	<div id="footer">@copyright joe phoenix</div>
 </body>
 </html>
