@@ -1,15 +1,15 @@
 package net.gbicc.http.converter;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StreamUtils;
 
 public class UTF8StringHttpMessageConverter extends StringHttpMessageConverter {
 	private static final MediaType utf8 = new MediaType("text", "plain",
@@ -25,14 +25,19 @@ public class UTF8StringHttpMessageConverter extends StringHttpMessageConverter {
 		return Arrays.asList(utf8.getCharSet());
 	}
 
+	protected String readInternal(Class<? extends String> clazz,
+			HttpInputMessage inputMessage) throws IOException {
+		Charset charset = utf8.getCharSet();
+		return StreamUtils.copyToString(inputMessage.getBody(), charset);
+	}
+
 	protected void writeInternal(String s, HttpOutputMessage outputMessage)
 			throws IOException {
 		if (this.writeAcceptCharset) {
 			outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
 		}
 		Charset charset = utf8.getCharSet();
-		FileCopyUtils.copy(s, new OutputStreamWriter(outputMessage.getBody(),
-				charset));
+		StreamUtils.copy(s, charset, outputMessage.getBody());
 	}
 
 	public boolean isWriteAcceptCharset() {

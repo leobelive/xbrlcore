@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import net.gbicc.xbrl.ent.model.ValidateObject;
-import net.gbicc.xbrl.validate.service.ResultService;
+import net.gbicc.xbrl.validate.service.ValidateService;
 import net.sf.json.JSONArray;
 
 import org.apache.log4j.Logger;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @Component
-public class ResultController {
-	@Resource(name = "resultService")
-	private ResultService resultService;
+public class ValidateController {
+	@Resource(name = "validateService")
+	private ValidateService validateService;
 
 	protected static Logger logger = Logger.getLogger("controller");
 
@@ -71,7 +71,7 @@ public class ResultController {
 	public String FirstPage(@PathVariable Integer p1, Model model) {
 		List<ValidateObject> result = new ArrayList<ValidateObject>();
 		try {
-			result = resultService.returnErrorList();
+			result = validateService.returnErrorList();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

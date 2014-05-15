@@ -23,8 +23,8 @@ import org.springframework.stereotype.Service;
  * 
  * @author joephoenix
  */
-@Service("resultService")
-public class ResultService {
+@Service("validateService")
+public class ValidateService {
 
 	/**
 	 * 读取服务器上保存的实例文档然后得到校验结果的方法
@@ -120,7 +120,7 @@ public class ResultService {
 						String detail = ValidateUtils.getCalculationDesc(
 								calcDetail, xbrlInstance.getOwnerDTS());
 						sbDes.append(title);
-						sbDes.append(":");
+						sbDes.append("--");
 						sbDes.append(detail);
 					}
 					String funRight = ValidateUtils.getFunctionDescription(
@@ -137,28 +137,31 @@ public class ResultService {
 					String detail = xm.getMessage().replace("数据项 ", "")
 							.replace("缺失schema元素定义", "");
 					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的元素定义-" + detail.replace(":", "_"));
+					vo.setMessage("错误的元素定义--" + detail.replace(":", "_"));
 					validateMessages.add(vo);
 					continue;
 				}
 				List<String> contents = ValidateUtils.initContentCodes();
 				if (contents.contains(xm.getId())) {
 					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的上下文定义-" + xm.getMessage().replace(":", "_"));
+					vo.setMessage("错误的上下文定义--"
+							+ xm.getMessage().replace(":", "_"));
 					validateMessages.add(vo);
 					continue;
 				}
 				List<String> props = ValidateUtils.initPropertyCodes();
 				if (props.contains(xm.getId())) {
 					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的属性定义-" + xm.getMessage().replace(":", "_"));
+					vo.setMessage("错误的属性定义--"
+							+ xm.getMessage().replace(":", "_"));
 					validateMessages.add(vo);
 					continue;
 				}
 				List<String> tples = ValidateUtils.initTupleCodes();
 				if (tples.contains(xm.getId())) {
 					ValidateObject vo = new ValidateObject();
-					vo.setMessage("错误的数据表格定义-" + xm.getMessage().replace(":", "_"));
+					vo.setMessage("错误的数据表格定义-"
+							+ xm.getMessage().replace(":", "_"));
 					validateMessages.add(vo);
 					continue;
 				}
@@ -169,7 +172,7 @@ public class ResultService {
 						msg = msg.substring(0, msg.indexOf(":") - 1);
 					}
 					ValidateObject vo = new ValidateObject();
-					vo.setMessage("元素的内容存在错误-" + msg.replace(":", "_"));
+					vo.setMessage("元素的内容存在错误--" + msg.replace(":", "_"));
 					validateMessages.add(vo);
 					continue;
 				}
