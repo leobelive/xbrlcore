@@ -41,10 +41,10 @@ public class CompareUtils {
 		 * 
 		 * 第一份实例文档和第二份文档中元素的值不一样的，记为更改
 		 *******/
-		cr.put("apparedElemets",
+		cr.put("apparedElements",
 				getNewApparedElements(itemList1, tupleList1, itemList2,
 						tupleList2).size());
-		cr.put("NoUsedElemets",
+		cr.put("noUsedElements",
 				getNotUsedElements(itemList1, tupleList1, itemList2, tupleList2)
 						.size());
 		cr.put("changedElements", getChangedElements(itemList1, itemList2)

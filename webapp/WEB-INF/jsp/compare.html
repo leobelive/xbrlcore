@@ -28,8 +28,10 @@
 <script type="text/javascript">
     $.getJSON('compare/1/1', function(data) {
       var obj = eval('(' + data +')');
-	  var xxx ="<span>" + obj[0].changedElements + "</span>";
-	  document.getElementById('compareresult').innerHTML = xxx;
+      var xxx ="<span style=\"align:left\">新使用元素:" + obj[0].apparedElements + "个</span><br/>";
+      var yyy = xxx + "<span style=\"align:left\">不使用元素:" + obj[0].noUsedElements + "个</span><br/>";
+      var zzz = yyy + "<span style=\"align:left\">改变的元素:" + obj[0].changedElements + "个</span><br/>";
+	  document.getElementById('compareresult').innerHTML = zzz;
 	})
 </script>
 </head>
@@ -40,10 +42,10 @@
 		</div>
 	</div>
 	<div id="content1" style="height:520px">
-		<h5>请选择比较的文件1:</h5><input type="file" />
-		<h5>请选择比较的文件2:</h5><input type="file" />
+		<h5 style="align:left">请选择比较的文件1:</h5><input type="file" />
+		<h5 style="align:left">请选择比较的文件2:</h5><input type="file" />
 		<div style="height:30px"></div>
-		<div id="compareresult" style="width:200;height:52px">dddd</div>		    
+		<div id="compareresult" style="width:200;height:52px"></div>		    
 	</div>	
 	<div id="footer">@copyright joe phoenix</div>
 </body>
