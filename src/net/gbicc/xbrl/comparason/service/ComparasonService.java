@@ -3,7 +3,6 @@ package net.gbicc.xbrl.comparason.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.gbicc.xbrl.ent.util.CompareUtils;
