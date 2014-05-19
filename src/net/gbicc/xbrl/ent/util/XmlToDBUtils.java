@@ -15,6 +15,7 @@ import net.gbicc.xbrl.ent.model.Context;
 import net.gbicc.xbrl.ent.model.InstanceDocument;
 import net.gbicc.xbrl.ent.model.ItemElement;
 import net.gbicc.xbrl.ent.model.PublicAccount;
+import net.gbicc.xbrl.ent.model.RelationMapping;
 import net.gbicc.xbrl.ent.model.TupleElement;
 
 public class XmlToDBUtils {
@@ -42,7 +43,6 @@ public class XmlToDBUtils {
 	 * @return
 	 */
 	public static String createFixedValue(String operater) {
-		// TODO Auto-generated method stub
 		String fixedValue = "";
 		String currentTime = new Timestamp(new Date().getTime()).toString();
 		currentTime = "to_timestamp('" + currentTime
@@ -206,14 +206,12 @@ public class XmlToDBUtils {
 	 * @return
 	 */
 	private static String random32() {
-		// TODO Auto-generated method stub
 		String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
 		return uuid;
 	}
 
 	private static String createVariableField(List<BasicInfo> list,
 			List children) {
-		// TODO Auto-generated method stub
 		/** 生成字段 **/
 		String VariableField = " (Id,";
 		String contextRef = null;
@@ -333,5 +331,57 @@ public class XmlToDBUtils {
 			}
 		}
 		return map;
+	}
+
+	/**
+	 * 处理所有的Item类型的数据
+	 * 
+	 * @param ies
+	 * @return
+	 */
+	public List<String> dealItemElements(List<ItemElement> ies) {
+		// 读取配置信息中存放item类型数据的表
+
+		// 读取item类型元素存放数据的上下文列表
+
+		// 按照表名称遍历配置信息，形成按照table分类的Map，以tableName为主键
+
+		// 按照上下文读取itemElements信息，使用context做主键形成Map
+
+		// 调用createImpactSQL生成insertSQL的列表
+
+		// 执行SQL语句列表， 保存数据
+
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param resInTable
+	 *            一个表的映射关系
+	 * @param ies
+	 *            元素的信息列表,限定统一上下文的
+	 * @return
+	 */
+	public String createImpactSQL(List<RelationMapping> resInTable,
+			List<ItemElement> iesSameContext) {
+		String tableName = "";
+		String fieldNames = "";
+		String valueString = "";
+		for (RelationMapping re : resInTable) {
+			tableName = re.getTableName();
+			for (ItemElement ie : iesSameContext) {
+				if (re.getElementName().equals(ie.getName())) {
+					fieldNames += re.getFieldName() + ",";
+					valueString += ie.getValue() + ",";
+					break;
+				}
+			}
+		}
+		String insertSql = "insert into " + tableName + " ("
+				+ fieldNames.substring(0, fieldNames.length() - 1)
+				+ ") value ("
+				+ valueString.substring(0, valueString.length() - 1) + ");";
+		return insertSql;
 	}
 }

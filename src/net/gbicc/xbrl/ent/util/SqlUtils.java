@@ -2,33 +2,53 @@ package net.gbicc.xbrl.ent.util;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import net.gbicc.xbrl.ent.model.BasicInfo;
 import net.gbicc.xbrl.ent.model.PublicAccount;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class SqlUtils {
 
 	private static final Log log = LogFactory.getLog(SqlUtils.class);
 
-	// jdbc对象引入
-	private static JdbcTemplate jdbcTemplate;
-
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public static List<String> getTableColumns(String tableName) {
+		Connection conn = null;
+		Statement st = null;
+		List<String> columns = new ArrayList<String>();
+		try {
+			conn = ConnectionUtil.getConnection();
+			conn.createStatement();
+			String sql = "select COLUMN_NAME from user_tab_columns "
+					+ "where table_name = '" + tableName + "'";
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				columns.add(rs.getString(0));
+			}
+			return columns;
+		} catch (SQLException sqlex) {
+			log.info(sqlex.getMessage());
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqlex) {
+				// e.printStackTrace();
+				log.info(sqlex.getMessage());
+			}
+		}
 	}
 
 	/**
@@ -39,29 +59,49 @@ public class SqlUtils {
 	 * @return
 	 */
 	public static List<BasicInfo> getBasicInfos(String name, String type) {
-		// TODO Auto-generated method stub
 		List list = new LinkedList();
+		Connection conn = null;
+		Statement st = null;
 		String sql = "select elementName,fieldName ,tableName from "
 				+ "TD_RELATION t where t.tablename in("
 				+ "select tableName from"
 				+ " TD_RELATION  where elementName = '" + name
 				+ "') and fieldname is not null and type ='" + type + "'";
-		List temp = (List) jdbcTemplate.queryForList(sql);
-		if (temp != null && temp.size() > 0) {
-			Iterator it = temp.iterator();
-			while (it.hasNext()) {
-				Map result = (Map) it.next();
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
 				BasicInfo basicInfo = new BasicInfo();
-				basicInfo.setElementName(result.get("elementName").toString());
-				basicInfo.setFieldName((String) result.get("fieldName"));
-				basicInfo.setTableName(result.get("tableName").toString());
+				basicInfo.setElementName(rs.getString("elementName"));
+				basicInfo.setFieldName(rs.getString("fieldName"));
+				basicInfo.setTableName(rs.getString("tableName"));
 				list.add(basicInfo);
 			}
+			return list;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		return list;
-
 	}
 
+	/**
+	 * 执行SQL
+	 * 
+	 * @param sql
+	 * @return
+	 */
 	public static boolean executeSql(String sql) {
 		boolean flag = false;
 		Connection conn = null;
@@ -87,71 +127,115 @@ public class SqlUtils {
 			}
 
 		}
-
 		return flag;
 
 	}
 
 	public static List getBasicInfoByType(String type) {
-		// TODO Auto-generated method stub
 		List list = new ArrayList();
+		Connection conn = null;
+		Statement st = null;
 		String sql = "select distinct(tableName) from TD_RELATION t"
 				+ " where t.type = '" + type + "' and t.fieldname is null";
-		List temp = (List) jdbcTemplate.queryForList(sql, new String[] {});
-		if (temp != null && temp.size() > 0) {
-			Iterator it = temp.iterator();
-			while (it.hasNext()) {
-				Map result = (Map) it.next();
-				list.add(result.get("tableName").toString());
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				list.add(rs.getString("tableName"));
+			}
+			return list;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		return list;
 	}
 
 	public static List<PublicAccount> getPartenS(String tableName) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		Statement st = null;
 		List list = new LinkedList();
-		String sql = " select ACCT_CODE,ACCT_CNAME,ACCT_ENAME,ACCT_CLASS,REMARK_INFO from TD_PUBLIC_ACCOUNT where ACCT_CODE in"
+		String sql = " select ACCT_CODE,ACCT_CNAME,ACCT_ENAME,ACCT_CLASS,REMARK_INFO "
+				+ "from TD_PUBLIC_ACCOUNT where ACCT_CODE in"
 				+ "(select t.parten from td_relation t where t.fieldname is not null and t.tablename='"
 				+ tableName + "'group by t.parten) and ACCT_ENAME is null";
-
-		List temp = (List) jdbcTemplate.queryForList(sql, new String[] {});
-		if (temp != null && temp.size() > 0) {
-			Iterator it = temp.iterator();
-			while (it.hasNext()) {
-				Map result = (Map) it.next();
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
 				PublicAccount publicAccount = new PublicAccount();
-				publicAccount.setCode(result.get("ACCT_CODE").toString());
-				publicAccount.setcName(result.get("ACCT_CNAME").toString());
-				publicAccount.seteName((String) result.get("ACCT_ENAME"));
-				publicAccount.setTableName((String) result.get("ACCT_CLASS"));
-				publicAccount.setRemarkInfo((String) result.get("REMARK_INFO"));
+				publicAccount.setCode(rs.getString("ACCT_CODE"));
+				publicAccount.setcName(rs.getString("ACCT_CNAME").toString());
+				publicAccount.seteName(rs.getString("ACCT_ENAME"));
+				publicAccount.setTableName(rs.getString("ACCT_CLASS"));
+				publicAccount.setRemarkInfo(rs.getString("REMARK_INFO"));
 				list.add(publicAccount);
 			}
+			return list;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		return list;
 	}
 
 	public static List<BasicInfo> getBasicInfosItem(String tableName,
 			String parten) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		Statement st = null;
 		List list = new LinkedList();
 		String sql = "select elementName,fieldName ,tableName from "
 				+ "TD_RELATION t where t.tablename ='" + tableName
 				+ "' and t.parten ='" + parten + "'";
-		List temp = (List) jdbcTemplate.queryForList(sql);
-		if (temp != null && temp.size() > 0) {
-			Iterator it = temp.iterator();
-			while (it.hasNext()) {
-				Map result = (Map) it.next();
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
 				BasicInfo basicInfo = new BasicInfo();
-				basicInfo.setElementName(result.get("elementName").toString());
-				basicInfo.setFieldName((String) result.get("fieldName"));
-				basicInfo.setTableName(result.get("tableName").toString());
+				basicInfo.setElementName(rs.getString("elementName"));
+				basicInfo.setFieldName(rs.getString("fieldName"));
+				basicInfo.setTableName(rs.getString("tableName"));
 				list.add(basicInfo);
 			}
+			return list;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		return list;
 	}
 
 	/**
@@ -161,18 +245,43 @@ public class SqlUtils {
 	 * @return
 	 */
 	public static int getTuples(String name) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		Statement st = null;
 		String sql = " select count(*) from td_relation where tableName in("
 				+ "select  t.tablename from td_relation t where t.elementname ='"
 				+ name + "' )" + "and type='tuple' and fieldname is null";
-		int tupleSize = jdbcTemplate.queryForInt(sql);
-		return tupleSize;
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			int tupleSize = 0;
+			if (rs.next()) {
+				tupleSize++;
+			}
+			return tupleSize;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return 0;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static List<BasicInfo> getBasicInfoByAccount(String name, String type) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		Statement st = null;
 		List list = new LinkedList();
-		String sql = "select elementName,fieldName ,tableName,a.acct_cname parten from td_relation r ,td_public_account a where "
+		String sql = "select elementName,fieldName ,tableName,a.acct_cname parten "
+				+ "from td_relation r ,td_public_account a where "
 				+ "  r.parten = a.acct_code and tableName in("
 				+ "select t.tablename from td_relation t where t.elementname ='"
 				+ name
@@ -180,20 +289,35 @@ public class SqlUtils {
 				+ "and parten in("
 				+ "select a.acct_code from td_public_account a where a.acct_ename='"
 				+ name + "') and type ='" + type + "'";
-		List temp = (List) jdbcTemplate.queryForList(sql);
-		if (temp != null && temp.size() > 0) {
-			Iterator it = temp.iterator();
-			while (it.hasNext()) {
-				Map result = (Map) it.next();
+		try {
+			conn = ConnectionUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+
+			if (rs.next()) {
 				BasicInfo basicInfo = new BasicInfo();
-				basicInfo.setElementName(result.get("elementName").toString());
-				basicInfo.setFieldName((String) result.get("fieldName"));
-				basicInfo.setTableName(result.get("tableName").toString());
-				basicInfo.setParten(result.get("parten").toString());
+				basicInfo.setElementName(rs.getString("elementName"));
+				basicInfo.setFieldName(rs.getString("fieldName"));
+				basicInfo.setTableName(rs.getString("tableName"));
+				basicInfo.setParten(rs.getString("parten"));
 				list.add(basicInfo);
 			}
+			return list;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		return list;
 	}
 
 	/**
@@ -206,7 +330,6 @@ public class SqlUtils {
 	 */
 
 	public static void executeSQLs(List sqlList) throws Exception {
-		// TODO Auto-generated method stub
 		Connection con = null;
 		Statement stmt = null;
 		try {
@@ -219,7 +342,6 @@ public class SqlUtils {
 				if (sqlList.get(ii) != null) {
 					stmt.addBatch((String) sqlList.get(ii));
 				}
-
 			}
 			stmt.executeBatch();
 			con.commit();
