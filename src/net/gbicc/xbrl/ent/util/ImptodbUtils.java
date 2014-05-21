@@ -1,8 +1,11 @@
 package net.gbicc.xbrl.ent.util;
 
 import java.io.FileWriter;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.gbicc.xbrl.ent.model.InstanceDocument;
 import net.gbicc.xbrl.ent.model.ItemElement;
@@ -23,12 +26,13 @@ public class ImptodbUtils {
 	 *            实例文档的二进制代码
 	 */
 	public String importToDB(byte[] instance) {
-		List insertList = new LinkedList();// 插入语句
-		List delSQlList = new LinkedList();// 删除语句
+		Map<String, List<String>> m_dealSql = new HashMap<String, List<String>>();
+		List<String> insertList = new LinkedList<String>();// 插入语句
+		List<String> delSQlList = new LinkedList<String>();// 删除语句
 		// 生成固定字段
-		String fixedField = XmlToDBUtils.createFixedField();
+		// String fixedField = XmlToDBUtils.createFixedField();
 		// 输入操作人的id号
-		String fixedValue = XmlToDBUtils.createFixedValue("ddddd");
+		// String fixedValue = XmlToDBUtils.createFixedValue("ddddd");
 
 		// 读实例文档，获得tupleList,itemList、contexts
 		InstanceDocument instanceDocument = new InstanceDocument();
@@ -36,27 +40,30 @@ public class ImptodbUtils {
 		// 读取普通元素列表
 		List<ItemElement> itemList = instanceDocument.getItemList();
 		// 读取TUPLE类型元素列表
-		List<TupleElement> tupleList = instanceDocument.getTupleList();
+		// List<TupleElement> tupleList = instanceDocument.getTupleList();
 
 		// 生成相关表类型的SQL语句
-		XmlToDBUtils.dealTupleList(insertList, delSQlList, fixedField,
-				fixedValue, instanceDocument);
-		XmlToDBUtils.dealItemList(insertList, delSQlList, fixedField,
-				fixedValue, instanceDocument);
-
+		// XmlToDBUtils.dealTupleList(insertList, delSQlList, fixedField,
+		// fixedValue, instanceDocument);
+		// XmlToDBUtils.dealItemList(insertList, delSQlList, fixedField,
+		// fixedValue, instanceDocument);
+		m_dealSql = XmlToDBUtils.dealItemElements(itemList);
 		// 保存SQL语句到本地,方便检查
-		writeSQLTOfile(insertList, "ddddd");
+		writeSQLTOfile(m_dealSql.get("INSERT"), "sql" + Calendar.YEAR
+				+ Calendar.MONTH + Calendar.DAY_OF_MONTH + Calendar.HOUR
+				+ Calendar.MINUTE + Calendar.SECOND + Calendar.MILLISECOND);
 		/**
 		 * 批量执行SQl入库
-		 **/
+		 * **/
 		try {
-			SqlUtils.executeSQLs(delSQlList);
-			SqlUtils.executeSQLs(insertList);
+			SqlUtils.executeSQLs(m_dealSql.get("DELETE"));
+			SqlUtils.executeSQLs(m_dealSql.get("INSERT"));
 			return "OK";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return e.getMessage();
 		}
+
 	}
 
 	/**
@@ -66,9 +73,10 @@ public class ImptodbUtils {
 	 */
 	public void writeSQLTOfile(List insertList, String fileName) {
 		// 生成文件的完整路径
-		String ROOT_PATH = this.getClass().getResource("").getPath();
-		String rootPath = ROOT_PATH.substring(0,
-				ROOT_PATH.indexOf("classes") + 8);
+		// String ROOT_PATH = this.getClass().getResource("").getPath();
+		// String rootPath = ROOT_PATH.substring(0,ROOT_PATH.indexOf("classes")
+		// + 8);
+		String rootPath = "C:\\ProjectFolder\\NEEQCode\\";
 		String instancePath = rootPath + "resource/" + fileName + ".txt";
 		// 写入信息到文件中
 		FileWriter writer;

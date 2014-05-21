@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import net.gbicc.xbrl.ent.model.BasicInfo;
 import net.gbicc.xbrl.ent.model.PublicAccount;
+import net.gbicc.xbrl.ent.model.RelationMapping;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,18 +19,68 @@ public class SqlUtils {
 
 	private static final Log log = LogFactory.getLog(SqlUtils.class);
 
-	public static List<String> getTableColumns(String tableName) {
+	private static final ConnectionUtil connectionUtil = new ConnectionUtil();
+
+	/**
+	 * 读取映射配置信息表中的所有表
+	 * 
+	 * @return
+	 */
+	public static List<RelationMapping> getMappingRelation(String tablename) {
+		Connection conn = null;
+		Statement st = null;
+		List<RelationMapping> rms = new ArrayList<RelationMapping>();
+		try {
+			conn = connectionUtil.getConnection();
+			st = conn.createStatement();
+			String sql = "select ELEMENTNAME, FIELDNAME, TABLENAME, "
+					+ "TYPE, PARTEN from TD_RELATION where tablename = '"
+					+ tablename + "'";
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				RelationMapping rm = new RelationMapping();
+				rm.setElementName(rs.getString("ELEMENTNAME"));
+				rm.setFieldName(rs.getString("FIELDNAME"));
+				rm.setTableName(rs.getString("TABLENAME"));
+				rm.setDataType(rs.getString("TYPE"));
+				rm.setParten(rs.getString("PARTEN"));
+				rms.add(rm);
+			}
+			return rms;
+		} catch (SQLException sqlex) {
+			log.info(sqlex.getMessage());
+			return null;
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqlex) {
+				// e.printStackTrace();
+				log.info(sqlex.getMessage());
+			}
+		}
+	}
+
+	/**
+	 * 读取映射配置信息表中的所有表
+	 * 
+	 * @return
+	 */
+	public static List<String> getTableNames() {
 		Connection conn = null;
 		Statement st = null;
 		List<String> columns = new ArrayList<String>();
 		try {
-			conn = ConnectionUtil.getConnection();
-			conn.createStatement();
-			String sql = "select COLUMN_NAME from user_tab_columns "
-					+ "where table_name = '" + tableName + "'";
+			conn = connectionUtil.getConnection();
+			st = conn.createStatement();
+			String sql = "select distinct (TABLENAME) from TD_RELATION where type = 1";
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
-				columns.add(rs.getString(0));
+				columns.add(rs.getString("TABLENAME"));
 			}
 			return columns;
 		} catch (SQLException sqlex) {
@@ -68,7 +118,7 @@ public class SqlUtils {
 				+ " TD_RELATION  where elementName = '" + name
 				+ "') and fieldname is not null and type ='" + type + "'";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -107,7 +157,7 @@ public class SqlUtils {
 		Connection conn = null;
 		Statement st = null;
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			flag = true;
@@ -138,7 +188,7 @@ public class SqlUtils {
 		String sql = "select distinct(tableName) from TD_RELATION t"
 				+ " where t.type = '" + type + "' and t.fieldname is null";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -171,7 +221,7 @@ public class SqlUtils {
 				+ "(select t.parten from td_relation t where t.fieldname is not null and t.tablename='"
 				+ tableName + "'group by t.parten) and ACCT_ENAME is null";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -210,7 +260,7 @@ public class SqlUtils {
 				+ "TD_RELATION t where t.tablename ='" + tableName
 				+ "' and t.parten ='" + parten + "'";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -251,7 +301,7 @@ public class SqlUtils {
 				+ "select  t.tablename from td_relation t where t.elementname ='"
 				+ name + "' )" + "and type='tuple' and fieldname is null";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			int tupleSize = 0;
@@ -290,7 +340,7 @@ public class SqlUtils {
 				+ "select a.acct_code from td_public_account a where a.acct_ename='"
 				+ name + "') and type ='" + type + "'";
 		try {
-			conn = ConnectionUtil.getConnection();
+			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 
@@ -329,12 +379,12 @@ public class SqlUtils {
 	 * @throws Exception
 	 */
 
-	public static void executeSQLs(List sqlList) throws Exception {
+	public static void executeSQLs(List sqlList) throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
 		try {
 			// 创建连接
-			con = ConnectionUtil.getConnection();
+			con = connectionUtil.getConnection();
 			con.setAutoCommit(false);
 			stmt = con.createStatement();
 			StringBuffer sb = new StringBuffer();

@@ -37,7 +37,7 @@ public class ValidateService {
 		String rootPath = this.getClass().getResource("").getPath();
 		rootPath = rootPath.substring(0, rootPath.indexOf("classes") + 8);
 		String instancePath = rootPath + "instances/"
-				+ "80000222_0000_JNWT01Y_20160630_V02.xml";
+				+ "430002_GB0301_20080630_V01.xml";
 		File instanceFile = new File(instancePath);
 		String fileName = instanceFile.getName();
 		byte[] instance = readInstance(instanceFile);
@@ -60,7 +60,9 @@ public class ValidateService {
 		path = path + "taxonomies/";
 		TaxonomyInfo ti = new TaxonomyInfo();
 		ti.setTaxonomyBase(path);
-		ti.setImportLocation("http://www.ssf.gov.cn/jnwt/jnser/ssf_jnwt_ser_2014-01-10.xsd");
+		// ti.setImportLocation("http://www.ssf.gov.cn/jnwt/jnser/ssf_jnwt_ser_2014-01-10.xsd");
+		// 使用新三板的分类标准
+		ti.setImportLocation("http://www.neeq.com.cn/neeq/entry/dis/all/2014-01-01");
 		return ti;
 	}
 

@@ -30,7 +30,7 @@ public class ImportService {
 		rootPath = rootPath.substring(0, rootPath.indexOf("classes") + 8);
 		// 读取实例文档
 		instancePath = rootPath + "instances/"
-				+ "80000222_0000_JNWT01Y_20160630_V02.xml";
+				+ "430002_GB0301_20080630_V01.xml";
 		File instanceFile = new File(instancePath);
 		byte[] instance = readInstance(instanceFile);
 		// 把实例文档的数据导入到相应的数据库表

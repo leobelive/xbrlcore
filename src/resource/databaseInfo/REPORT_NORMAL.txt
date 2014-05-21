@@ -1,0 +1,89 @@
+-- Create table
+create table REPORT_NORMAL
+(
+  id                VARCHAR2(32) not null,
+  security_code     VARCHAR2(30),
+  security_name     VARCHAR2(50),
+  area              VARCHAR2(50),
+  securities        VARCHAR2(50),
+  is_mbc            VARCHAR2(32),
+  is_bmc            VARCHAR2(32),
+  is_la             VARCHAR2(32),
+  is_eg             VARCHAR2(32),
+  is_pfpt           VARCHAR2(32),
+  is_rt             VARCHAR2(32),
+  is_sdtsa          VARCHAR2(32),
+  is_soip           VARCHAR2(32),
+  is_sp             VARCHAR2(32),
+  is_aafmp          VARCHAR2(32),
+  is_dhacp          VARCHAR2(32),
+  esp               NUMBER(6,2),
+  board_member_num  NUMBER,
+  ec_num            NUMBER,
+  is_bgmc           VARCHAR2(32),
+  is_fc             VARCHAR2(32),
+  is_eib            VARCHAR2(32),
+  stockholder_num   NUMBER,
+  rely_big_customer NUMBER(6,2),
+  stamp             TIMESTAMP(6),
+  is_delete         NUMBER,
+  contextref        VARCHAR2(100)
+);
+-- Add comments to the table 
+comment on table REPORT_NORMAL
+  is '年报和半年报统计指标（非财务）';
+-- Add comments to the columns 
+comment on column REPORT_NORMAL.id
+  is 'ID';
+comment on column REPORT_NORMAL.security_code
+  is '证券代码';
+comment on column REPORT_NORMAL.security_name
+  is '证券简称';
+comment on column REPORT_NORMAL.area
+  is '所属地区';
+comment on column REPORT_NORMAL.securities
+  is '主办券商';
+comment on column REPORT_NORMAL.is_mbc
+  is '主营业务是否发生变更';
+comment on column REPORT_NORMAL.is_bmc
+  is '商业模式是否发生重大变化';
+comment on column REPORT_NORMAL.is_la
+  is '是否存在诉讼、仲裁事项';
+comment on column REPORT_NORMAL.is_eg
+  is '是否存在对外担保事项';
+comment on column REPORT_NORMAL.is_pfpt
+  is '是否存在关联方资金占用或者转移';
+comment on column REPORT_NORMAL.is_rt
+  is '是否存在关联交易';
+comment on column REPORT_NORMAL.is_sdtsa
+  is '是否规范披露收购及出售资产、对外投资（无则写不适用）';
+comment on column REPORT_NORMAL.is_soip
+  is '是否规范披露股权激励计划（无则写不适用）';
+comment on column REPORT_NORMAL.is_sp
+  is '是否规范披露承诺情况（无则写不适用）';
+comment on column REPORT_NORMAL.is_aafmp
+  is '是否存在资产查封、扣押、冻结、被抵押、抵押的情况';
+comment on column REPORT_NORMAL.is_dhacp
+  is '公司及其董监高、控股股东、实际控制人是否收到处罚';
+comment on column REPORT_NORMAL.esp
+  is '高管持股比例';
+comment on column REPORT_NORMAL.board_member_num
+  is '董事会人数';
+comment on column REPORT_NORMAL.ec_num
+  is '高管变动人数';
+comment on column REPORT_NORMAL.is_bgmc
+  is '董事长或总经理是否发生变动';
+comment on column REPORT_NORMAL.is_fc
+  is '财务负责人是否发生变动';
+comment on column REPORT_NORMAL.is_eib
+  is '是否聘请独立董事';
+comment on column REPORT_NORMAL.stockholder_num
+  is '股东人数';
+comment on column REPORT_NORMAL.rely_big_customer
+  is '过于依赖大客户(%)';
+comment on column REPORT_NORMAL.stamp
+  is '时间戳';
+comment on column REPORT_NORMAL.is_delete
+  is '是否删除';
+comment on column REPORT_NORMAL.contextref
+  is '上下文信息';

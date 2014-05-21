@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.neeq.com.cn/neeq/dis/type/2014-01-01" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dis-type="http://www.neeq.com.cn/neeq/dis/type/2014-01-01">
+  <element name="KuaiJiZhuTi" id="dis-type_KuaiJiZhuTi" type="dis-type:KuaiJiZhuTiLeiXing"/>
+  <element name="ShuJuZhuangTai" id="dis-type_ShuJuZhuangTai" type="dis-type:ShuJuZhuangTaiLeiXing"/>
+  <simpleType name="KuaiJiZhuTiLeiXing">
+    <restriction base="token">
+      <enumeration value="母公司"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="ShuJuZhuangTaiLeiXing">
+    <restriction base="token">
+      <enumeration value="预测值"/>
+      <enumeration value="估计值"/>
+      <enumeration value="计划值"/>
+      <enumeration value="调整前值"/>
+      <enumeration value="调整后值"/>
+      <enumeration value="调节后值"/>
+      <enumeration value="调节后值"/>
+    </restriction>
+  </simpleType>
+</schema>

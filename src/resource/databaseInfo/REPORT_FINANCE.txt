@@ -1,0 +1,80 @@
+-- Create table
+create table REPORT_FINANCE
+(
+  id                    VARCHAR2(32) not null,
+  security_code         VARCHAR2(30),
+  security_name         VARCHAR2(50),
+  accounting_year       VARCHAR2(20),
+  area                  VARCHAR2(50),
+  securities            VARCHAR2(50),
+  capital_stock         NUMBER(20,2),
+  total_assets          NUMBER(20,2),
+  yoy_growth            NUMBER(6,2),
+  operating_revenues    NUMBER(20,2),
+  net_profit            NUMBER(20,2),
+  asset_liability_ratio NUMBER(6,2),
+  basic_eps             NUMBER(6,2),
+  bvps                  NUMBER(20,2),
+  bancf                 NUMBER(20,2),
+  net_assets            NUMBER(20,2),
+  roe                   NUMBER(6,2),
+  sgpr                  NUMBER(6,2),
+  stamp                 TIMESTAMP(6),
+  is_delete             NUMBER,
+  contextref            VARCHAR2(100)
+);
+-- Add comments to the table 
+comment on table REPORT_FINANCE
+  is '半年报和年报统计报告（财务）';
+-- Add comments to the columns 
+comment on column REPORT_FINANCE.id
+  is 'ID';
+comment on column REPORT_FINANCE.security_code
+  is '证券代码';
+comment on column REPORT_FINANCE.security_name
+  is '证券简称
+';
+comment on column REPORT_FINANCE.accounting_year
+  is '会计年度
+';
+comment on column REPORT_FINANCE.area
+  is '所属地区
+';
+comment on column REPORT_FINANCE.securities
+  is '主办券商
+';
+comment on column REPORT_FINANCE.capital_stock
+  is '股本（元）';
+comment on column REPORT_FINANCE.total_assets
+  is '总资产（元）';
+comment on column REPORT_FINANCE.yoy_growth
+  is '同比增长（%）';
+comment on column REPORT_FINANCE.operating_revenues
+  is '营业收入（元）';
+comment on column REPORT_FINANCE.net_profit
+  is '净利润（元）';
+comment on column REPORT_FINANCE.asset_liability_ratio
+  is '资产负债率%
+';
+comment on column REPORT_FINANCE.basic_eps
+  is '基本每股收益%';
+comment on column REPORT_FINANCE.bvps
+  is '每股净资产（元）
+';
+comment on column REPORT_FINANCE.bancf
+  is '经营活动净现金流（元）
+';
+comment on column REPORT_FINANCE.net_assets
+  is '净资产（元）
+';
+comment on column REPORT_FINANCE.roe
+  is '加权平均净资产收益率(%)
+';
+comment on column REPORT_FINANCE.sgpr
+  is '销售毛利率（%）';
+comment on column REPORT_FINANCE.stamp
+  is '时间戳';
+comment on column REPORT_FINANCE.is_delete
+  is '是否删除';
+comment on column REPORT_FINANCE.contextref
+  is '上下文信息';

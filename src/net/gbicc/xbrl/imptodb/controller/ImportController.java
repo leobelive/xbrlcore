@@ -1,6 +1,8 @@
 package net.gbicc.xbrl.imptodb.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -41,11 +43,13 @@ public class ImportController {
 		return "importdb";
 	}
 
-	@RequestMapping(value = "/compare/{pv1}/{pv2}")
+	@RequestMapping(value = "/importdb/{imp}")
 	@ResponseBody
-	public String getComparasonResults(@PathVariable String pv1) {
+	public String getImportResults(@PathVariable String imp) {
 		try {
-			String results = importService.importInstance(pv1);
+			String result = importService.importInstance(imp);
+			List<String> results = new ArrayList<String>();
+			results.add(result);
 			JSONArray ja = JSONArray.fromObject(results);
 			return ja.toString();
 		} catch (IOException ioex) {

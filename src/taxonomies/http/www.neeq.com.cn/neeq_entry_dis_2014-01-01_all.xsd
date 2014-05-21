@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.neeq.com.cn/neeq/entry/dis/all/2014-01-01"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dis-all="http://www.neeq.com.cn/neeq/entry/dis/all/2014-01-01"
+	xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:num="http://www.xbrl.org/dtr/type/numeric"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+	<import namespace="http://www.neeq.com.cn/neeq/dis/ar/2014-01-01"
+		schemaLocation="neeq/dis/ar/neeq_dis_ar_2014-01-01.xsd" />
+	<import namespace="http://www.neeq.com.cn/neeq/dis/sar/2014-01-01"
+		schemaLocation="neeq/dis/sar/neeq_dis_sar_2014-01-01.xsd" />
+	<import namespace="http://www.neeq.com.cn/neeq/dis/tr/2014-01-01"
+		schemaLocation="neeq/dis/tr/neeq_dis_tr_2014-01-01.xsd" />
+</schema>
