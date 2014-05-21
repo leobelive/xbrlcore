@@ -41,7 +41,7 @@ public class ValidateService {
 		File instanceFile = new File(instancePath);
 		String fileName = instanceFile.getName();
 		byte[] instance = readInstance(instanceFile);
-		TaxonomyInfo ti = getTaxonomyConfig();
+		TaxonomyInfo ti = getTaxonomyConfig(2);
 
 		// 开始校验
 		List<ValidateObject> messageList = ValidateUtils.validate(instance,
@@ -50,19 +50,30 @@ public class ValidateService {
 	}
 
 	/**
-	 * 设置分类标准的信息
+	 * 设置分类标准的信息,按照报告类型，加载不同的入口文件
 	 * 
+	 * @param report_type
+	 *            报告类型的代码：1；表示年报，2：半年报，3；临时公告
 	 * @return
 	 */
-	public TaxonomyInfo getTaxonomyConfig() {
+	public TaxonomyInfo getTaxonomyConfig(int report_type) {
 		String path = this.getClass().getResource("").getPath();
 		path = path.substring(0, path.indexOf("classes") + 8);
 		path = path + "taxonomies/";
 		TaxonomyInfo ti = new TaxonomyInfo();
 		ti.setTaxonomyBase(path);
 		// ti.setImportLocation("http://www.ssf.gov.cn/jnwt/jnser/ssf_jnwt_ser_2014-01-10.xsd");
-		// 使用新三板的分类标准
-		ti.setImportLocation("http://www.neeq.com.cn/neeq/entry/dis/all/2014-01-01");
+		// 使用新三板的分类标准入口，半年报的
+		switch (report_type) {
+		case 1:
+			ti.setImportLocation("http://www.neeq.com.cn/neeq/dis/ar/neeq_dis_ar_2014-01-01.xsd");
+		case 2:
+			ti.setImportLocation("http://www.neeq.com.cn/neeq/dis/sar/neeq_dis_sar_2014-01-01.xsd");
+		case 3:
+			ti.setImportLocation("http://www.neeq.com.cn/neeq/dis/tr/neeq_dis_tr_2014-01-01.xsd.xsd");
+		default:
+			ti.setImportLocation("http://www.neeq.com.cn/neeq/dis/core/neeq_dis_core_2014-01-01.xsd");
+		}
 		return ti;
 	}
 
