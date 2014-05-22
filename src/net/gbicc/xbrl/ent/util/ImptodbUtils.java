@@ -26,9 +26,11 @@ public class ImptodbUtils {
 	 *            实例文档的二进制代码
 	 */
 	public String importToDB(byte[] instance) {
+		// 声明返回变量
 		Map<String, List<String>> m_dealSql = new HashMap<String, List<String>>();
-		List<String> insertList = new LinkedList<String>();// 插入语句
-		List<String> delSQlList = new LinkedList<String>();// 删除语句
+
+		// List<String> insertList = new LinkedList<String>();// 插入语句
+		// List<String> delSQlList = new LinkedList<String>();// 删除语句
 		// 生成固定字段
 		// String fixedField = XmlToDBUtils.createFixedField();
 		// 输入操作人的id号
@@ -52,9 +54,7 @@ public class ImptodbUtils {
 		writeSQLTOfile(m_dealSql.get("INSERT"), "sql" + Calendar.YEAR
 				+ Calendar.MONTH + Calendar.DAY_OF_MONTH + Calendar.HOUR
 				+ Calendar.MINUTE + Calendar.SECOND + Calendar.MILLISECOND);
-		/**
-		 * 批量执行SQl入库
-		 * **/
+		/** 批量执行SQl入库 **/
 		try {
 			SqlUtils.executeSQLs(m_dealSql.get("DELETE"));
 			SqlUtils.executeSQLs(m_dealSql.get("INSERT"));
