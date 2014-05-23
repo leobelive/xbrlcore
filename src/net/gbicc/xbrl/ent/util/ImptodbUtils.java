@@ -25,45 +25,37 @@ public class ImptodbUtils {
 	 * @param instance
 	 *            实例文档的二进制代码
 	 */
-	public String importToDB(byte[] instance) {
+	public String putInstanceTOdata(byte[] instance) {
 		// 声明返回变量
 		Map<String, List<String>> m_dealSql = new HashMap<String, List<String>>();
-
-		// List<String> insertList = new LinkedList<String>();// 插入语句
-		// List<String> delSQlList = new LinkedList<String>();// 删除语句
-		// 生成固定字段
-		// String fixedField = XmlToDBUtils.createFixedField();
-		// 输入操作人的id号
-		// String fixedValue = XmlToDBUtils.createFixedValue("ddddd");
-
-		// 读实例文档，获得tupleList,itemList、contexts
 		InstanceDocument instanceDocument = new InstanceDocument();
 		instanceDocument = InstanceUtils.readInstance(instance);
 		// 读取普通元素列表
 		List<ItemElement> itemList = instanceDocument.getItemList();
 		// 读取TUPLE类型元素列表
-		// List<TupleElement> tupleList = instanceDocument.getTupleList();
-
-		// 生成相关表类型的SQL语句
-		// XmlToDBUtils.dealTupleList(insertList, delSQlList, fixedField,
-		// fixedValue, instanceDocument);
-		// XmlToDBUtils.dealItemList(insertList, delSQlList, fixedField,
-		// fixedValue, instanceDocument);
-		m_dealSql = XmlToDBUtils.dealItemElements(itemList);
+		List<TupleElement> tupleList = instanceDocument.getTupleList();
+		/**
+		 * 执行方法，生成插入数据的SQL语句，
+		 * 
+		 * 对tuple类型的表格遍历所有item处理，
+		 * 
+		 * 对item则直接遍历
+		 **/
+		m_dealSql = InsToDataUtils.dealAllElements(itemList, tupleList);
 		// 保存SQL语句到本地,方便检查
-		writeSQLTOfile(m_dealSql.get("INSERT"), "sql" + Calendar.YEAR
-				+ Calendar.MONTH + Calendar.DAY_OF_MONTH + Calendar.HOUR
-				+ Calendar.MINUTE + Calendar.SECOND + Calendar.MILLISECOND);
+		Calendar calendar = Calendar.getInstance();
+		writeSQLTOfile(m_dealSql.get("INSERT"),
+				"sql" + calendar.getTimeInMillis());
 		/** 批量执行SQl入库 **/
 		try {
 			SqlUtils.executeSQLs(m_dealSql.get("DELETE"));
 			SqlUtils.executeSQLs(m_dealSql.get("INSERT"));
-			return "OK";
+			return String.valueOf("OK::" + m_dealSql.get("INSERT").size()
+					+ "条数据导入成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return e.getMessage();
 		}
-
 	}
 
 	/**

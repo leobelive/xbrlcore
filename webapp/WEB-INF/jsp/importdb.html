@@ -26,12 +26,10 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
 <script type="text/javascript">
-    $.getJSON('compare/1/1', function(data) {
+    $.getJSON('importdb/22', function(data) {
       var obj = eval('(' + data +')');
-      var xxx ="<span style=\"align:left\">新使用元素:" + obj[0].apparedElements + "个</span><br/>";
-      var yyy = xxx + "<span style=\"align:left\">不使用元素:" + obj[0].noUsedElements + "个</span><br/>";
-      var zzz = yyy + "<span style=\"align:left\">改变的元素:" + obj[0].changedElements + "个</span><br/>";
-	  document.getElementById('compareresult').innerHTML = zzz;
+      var xxx ="<span style=\"align:left\">共有" + obj[0] + "</span><br/>";
+	  document.getElementById('import_result').innerHTML = xxx;
 	})
 </script>
 </head>
@@ -43,9 +41,8 @@
 	</div>
 	<div id="content1" style="height:520px">
 		<h5 style="align:left">请选择比较的文件1:</h5><input type="file" />
-		<h5 style="align:left">请选择比较的文件2:</h5><input type="file" />
 		<div style="height:30px"></div>
-		<div id="compareresult" style="width:200;height:52px"></div>		    
+		<div id="import_result" style="width:200;height:52px"></div>		    
 	</div>	
 	<div id="footer">@copyright joe phoenix</div>
 </body>

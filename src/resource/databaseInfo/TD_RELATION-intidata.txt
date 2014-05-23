@@ -1,86 +1,90 @@
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f2', 'dis-core:ZhengQuanDaiMa', 'SECURITY_CODE', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f3', 'dis-core:ZhengQuanJianChen', 'SECURITY_NAME', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('8a814dd43214bf6e013214ceff5206f4', 'dis-core:GuaPaiShiJian', 'ACCOUNTING_YEAR', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd43214bf6e013214ceffd7e6f4', 'dis-core:GuaPaiShiJian', 'ACCOUNTING_YEAR', 'REPORT_FINANCE', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f4', 'dis-core:BanGongDiZhi', 'AREA', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f5', 'dis-core:ZhuBanQuanShangMingCheng', 'SECURITIES', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f6', 'dis-core:ZongGuBenShuLiang', 'CAPITAL_STOCK', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f7', 'ifrs:Assets', 'TOTAL_ASSETS', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f8', 'ifrs:Revenue', 'OPERATING_REVENUES', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g0', 'dis-core:GuiShuYuGuaPaiGongSiGuDongDeJingLiRun', 'NET_PROFIT', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g1', 'dis-core:ZiChanFuZhaiLv', 'ASSET_LIABILITY_RATIO', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g2', 'ifrs:BasicEarningsLossPerShare', 'BASIC_EPS', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g3', 'dis-core:GuiShuYuGuaPaiGongSiGuDongDeMeiGuJingZi', 'BVPS', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g4', 'dis-core:GuiShuYuGuaPaiGongSiGuDongDeJingZiChan', 'NET_ASSETS', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206g5', 'dis-core:JiaQuanPingJunJingZiChanShouYiLv', 'ROE', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('8a814dd43214bf6e013214ceff5206g5', 'dis-core:MaoLiLv', 'SGPR', 'REPORT_FINANCE', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd43214bc2e013214ceff5206g5', 'dis-core:MaoLiLv', 'SGPR', 'REPORT_FINANCE', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206g5', 'dis-core:ZhengQuanDaiMa', 'SECURITY_CODE', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f3', 'dis-core:ZhengQuanJianChen', 'SECURITY_NAME', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f4', 'dis-core:BanGongDiZhi', 'AREA', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f5', 'dis-core:BenNianDuShangYeMoShiShiFouFaShengZhongDaBianHua', 'IS_BMC', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f6', 'dis-core:ShiFouCunZaiDuiWaiDanBaoShiXiang', 'IS_EG', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f7', 'dis-core:DongShiHuiRenShu', 'BOARD_MEMBER_NUM', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206f8', 'dis-core:JieZhiBaoGaoQiMoDeGuDongRenShu', 'STOCKHOLDER_NUM', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('7a814dd43214bf6e013214ceff5206g5', 'dis-core:ZhengQuanDaiMa', 'SECURITY_CODE', 'REPORT_TEMPORARY', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('7a814dd43214bf6e013214ceff5206f3', 'dis-core:ZhengQuanJianChen', 'SECURITY_NAME', 'REPORT_TEMPORARY', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('9a814dd43214bf6e013214ceff5206x5', 'dis-core:ZhuBanQuanShangMingCheng', 'SECURITIES', 'REPORT_NORMAL', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('7a814dd43214bf6e013214ceff5206x5', 'dis-core:ZhuBanQuanShangMingCheng', 'SECURITIES', 'REPORT_TEMPORARY', '1', '1');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814ee4323ebf4r013214ceff5206g5', 'dis-core:XianRenDongShiJianShiGaoJiGuanLiRenYuanChiGuQingKuangDeChiGuBiLi', 'ESP', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4243ebf4r013214ceff5206g5', 'dis-core:ZhuYingYeWuShiFouFaShengBianHua', 'IS_MBC', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4e413214ceff5206g5', 'dis-core:BenNianDuGongSiShiFouCunZaiZhongDaSuSongZhongCaiShiXiang', 'IS_LA', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r013214ceee5206g5', 'dis-core:NianDuNeiYouWuLvXingJiShangWeiLvXingWanBiDeDuiWaiDanBaoHeTong', 'IS_EG', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r013214ce335206g5', 'dis-core:BenNianDuNeiYouWuShiFouFaShengGuDongJiQiGuanLianFangYiGeZhongXingShiZhanYongHuoZheZhuanYiGongSiDeZiJinZiChanJiQiTaZiYuanDeQingXing', 'IS_PFPT', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r013214ce338206g5', 'dis-core:YouWuRiChangXingJiOuFaXingGuanLianFangJiaoYi', 'IS_RT', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r013214bdff52cdg5', 'dis-core:YouWuJingGuDongDaHuiPiZhunDeShouGouJiChuShouZiChanDuiWaiTouZi', 'IS_SDTSA', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r0er214bdff5206g5', 'dis-core:BenNianDuYouWuZhongYaoShiXiangSuoYinBiaoGuQuanJiLiJiHua', 'IS_SOIP', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8f814dd4323ebf4r0er214bdff5206g5', 'dis-core:YouWuYiPiLuDeChengNuoShiXiang', 'IS_SP', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8c814dd4323ebf4r013214ff338206g5', 'dis-core:YouWuZiChanBeiChaFengKouYaDongJieHuoZheBeiDiYaZhiYaDeQingKuang', 'IS_AAFMP', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4r0er214bdff52ffg5', 'dis-core:YouWuBeiShiChangGongKaiQianZeDeQingXing', 'IS_DHACP', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd4323ebf4h013214ceff5206g5', 'dis-core:DongShiHuiRenShu', 'EC_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf4r013214ceff5206g5', null, 'CONTEXTREF', 'REPORT_FINANCE', '1', '2');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd4323ebf4r013214ceff5206g5', null, 'CONTEXTREF', 'REPORT_NORMAL', '1', '2');
-
-insert into TD_RELATION (ID, ELEMENTNAME, FIELDNAME, TABLENAME, TYPE, PARTEN)
-values ('7a814dd432r4bf6e013214ceff5206x5', null, 'CONTEXTREF', 'REPORT_TEMPORARY', '1', '2');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a8c4dd43d14bf6e013214ceff5206f2', 'dis-core:DongShiBianGengCiShu', 'MBD_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a814dd43d14bf6e013214ceff5206f2', 'dis-core:GaoJiGuanLiRenYuanBianGengCiShu', 'AMP_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a81fed43d14bf6e013214ceff5206f2', 'dis-core:JianShiBianGengCiShu', 'MSP_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a8afed43d14bf6e013214ceaf5206f2', 'dis-core:DongShiChangBianGengRenShu', 'MBC_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a8afeda3d14bf64013214ceaf5206f2', 'dis-core:ZongJingLiBianGengRenShu', 'SMC_NUM', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a8abedb3d14bf64013214c1af5206f2', 'dis-core:CaiWuFuZeRenBianGengRenShu', 'IS_FC', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('8a8afeda5d14bf64e13d14ceaf5206f2', 'dis-core:ShiFouPinRenDuLiDongShi', 'IS_EIB', 'REPORT_NORMAL', '1', '1');
+insert into TD_RELATION (id, elementname, fieldname, tablename, type, parten)
+values ('898afeda5d14b264ec3d14ceaf520642', 'dis-core:QianWuMingKeHuDeYingYeShouRuZhanGongSiQuanBuYingYeShouRuDeBiLi', 'RELY_BIG_CUSTOMER', 'REPORT_NORMAL', '1', '1');

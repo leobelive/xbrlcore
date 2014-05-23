@@ -8,7 +8,7 @@
         or utilised in any form either in whole or in part without prior permission in writing from the Ministry of Finance, China.
       ********************** 
 -->
-<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cas_entry_point="http://xbrl.mof.gov.cn/taxonomy/2010-09-30/cas/cas_entry_point">
+<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:cas_entry_point="http://xbrl.mof.gov.cn/taxonomy/2010-09-30/cas/cas_entry_point" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
   <link:roleRef roleURI="http://www.xbrl.org/2009/role/negatedLabel" xlink:type="simple" xlink:href="http://www.xbrl.org/lrr/role/negated-2009-12-16.xsd#negatedLabel"/>
   <link:roleRef roleURI="http://www.xbrl.org/2009/role/negatedTotalLabel" xlink:type="simple" xlink:href="http://www.xbrl.org/lrr/role/negated-2009-12-16.xsd#negatedTotalLabel"/>
   <link:roleRef roleURI="http://www.xbrl.org/2009/role/netLabel" xlink:type="simple" xlink:href="http://www.xbrl.org/lrr/role/net-2009-12-16.xsd#netLabel"/>
@@ -9803,6 +9803,8 @@
     <link:loc xlink:type="locator" xlink:href="http://xbrl.iasb.org/taxonomy/2010-04-30/ifrs-cor_2010-04-30.xsd#ifrs_ProfitLoss" xlink:label="ProfitLoss" xlink:title="ProfitLoss"/>
     <link:label xlink:type="resource" xlink:label="label_ProfitLoss" xlink:role="http://www.xbrl.org/2003/role/label" xlink:title="label_ProfitLoss" xml:lang="zh" id="label_ProfitLoss">净利润</link:label>
     <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="ProfitLoss" xlink:to="label_ProfitLoss" xlink:title="label: ProfitLoss to label_ProfitLoss"/>
+    <link:label xlink:type="resource" xlink:label="label_ProfitLoss_2" xlink:role="http://www.xbrl.org/2003/role/terseLabel" xlink:title="label_ProfitLoss" xml:lang="zh" id="label_ProfitLoss_2">归属于挂牌公司股东的每股净资产</link:label>
+    <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="ProfitLoss" xlink:to="label_ProfitLoss_2" xlink:title="label: ProfitLoss to label_ProfitLoss"/>
     <link:loc xlink:type="locator" xlink:href="http://xbrl.iasb.org/taxonomy/2010-04-30/ifrs-cor_2010-04-30.xsd#ifrs_ProfitLossAttributableToNoncontrollingInterests" xlink:label="ProfitLossAttributableToNoncontrollingInterests" xlink:title="ProfitLossAttributableToNoncontrollingInterests"/>
     <link:label xlink:type="resource" xlink:label="label_ProfitLossAttributableToNoncontrollingInterests" xlink:role="http://www.xbrl.org/2003/role/label" xlink:title="label_ProfitLossAttributableToNoncontrollingInterests" xml:lang="zh" id="label_ProfitLossAttributableToNoncontrollingInterests">少数股东损益</link:label>
     <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="ProfitLossAttributableToNoncontrollingInterests" xlink:to="label_ProfitLossAttributableToNoncontrollingInterests" xlink:title="label: ProfitLossAttributableToNoncontrollingInterests to label_ProfitLossAttributableToNoncontrollingInterests"/>

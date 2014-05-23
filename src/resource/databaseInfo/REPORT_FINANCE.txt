@@ -78,3 +78,7 @@ comment on column REPORT_FINANCE.is_delete
   is '是否删除';
 comment on column REPORT_FINANCE.contextref
   is '上下文信息';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table REPORT_FINANCE
+  add constraint REPORT_FINANCE_PK primary key (ID)
+  using index;

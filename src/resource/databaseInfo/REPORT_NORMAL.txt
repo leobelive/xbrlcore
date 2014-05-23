@@ -27,7 +27,12 @@ create table REPORT_NORMAL
   rely_big_customer NUMBER(6,2),
   stamp             TIMESTAMP(6),
   is_delete         NUMBER,
-  contextref        VARCHAR2(100)
+  contextref        VARCHAR2(100),
+  mbd_num           NUMBER,
+  msp_num           NUMBER,
+  amp_num           NUMBER,
+  mbc_num           NUMBER,
+  smc_num           NUMBER
 );
 -- Add comments to the table 
 comment on table REPORT_NORMAL
@@ -70,20 +75,34 @@ comment on column REPORT_NORMAL.esp
 comment on column REPORT_NORMAL.board_member_num
   is '董事会人数';
 comment on column REPORT_NORMAL.ec_num
-  is '高管变动人数';
+  is '高管变动人数,是高级管理人变动次数+董事变动次数+监事变动次数之和';
 comment on column REPORT_NORMAL.is_bgmc
-  is '董事长或总经理是否发生变动';
+  is '董事长或总经理是否发生变动，需要根据董事长变动人数和总经理变动人数之和是否大于零判断';
 comment on column REPORT_NORMAL.is_fc
-  is '财务负责人是否发生变动';
+  is '财务负责人是否发生变动，放入变更人数，如果大于零，则为变动过';
 comment on column REPORT_NORMAL.is_eib
   is '是否聘请独立董事';
 comment on column REPORT_NORMAL.stockholder_num
   is '股东人数';
 comment on column REPORT_NORMAL.rely_big_customer
-  is '过于依赖大客户(%)';
+  is '过于依赖大客户(%)，判读百分比大小，读取的是总计值';
 comment on column REPORT_NORMAL.stamp
   is '时间戳';
 comment on column REPORT_NORMAL.is_delete
   is '是否删除';
 comment on column REPORT_NORMAL.contextref
   is '上下文信息';
+comment on column REPORT_NORMAL.mbd_num
+  is '董事变动次数';
+comment on column REPORT_NORMAL.msp_num
+  is '监事变动次数';
+comment on column REPORT_NORMAL.amp_num
+  is '高级管理人变动次数';
+comment on column REPORT_NORMAL.mbc_num
+  is '董事长变动人数';
+comment on column REPORT_NORMAL.smc_num
+  is '总经理变动人数';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table REPORT_NORMAL
+  add constraint REPORT_NORMAL_PK primary key (ID)
+  using index;
