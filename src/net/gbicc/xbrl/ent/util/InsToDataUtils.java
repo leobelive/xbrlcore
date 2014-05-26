@@ -84,11 +84,16 @@ public class InsToDataUtils {
 		for (String key1 : m_rm.keySet()) {
 			for (String key2 : m_itemWithContextRef.keySet()) {
 				String deleteSQL = createDeleteSQL(key1, key2, m_rm.get(key1));
-				String insertSQL = createImpactSQL(m_rm.get(key1),
+				String insertSQL = createRelationImpactSQL(m_rm.get(key1),
+						m_itemWithContextRef.get(key2), key1, key2);
+				List<String> rowInsertSqls = createRowImpactSQL(m_rm.get(key1),
 						m_itemWithContextRef.get(key2), key1, key2);
 				deleteSQLs.add(deleteSQL);
 				if (!insertSQL.equalsIgnoreCase("NOSQL")) {
 					insertSQLs.add(insertSQL);
+				}
+				if (rowInsertSqls != null) {
+					insertSQLs.addAll(rowInsertSqls);
 				}
 			}
 		}
@@ -98,7 +103,27 @@ public class InsToDataUtils {
 		return m_dealSql;
 	}
 
+	/***
+	 * 生成导数的SQL语句，处理映射成行列式数据库表的元素
+	 * 
+	 * @param rsInTable
+	 * @param iesSameContext
+	 * @param tablename
+	 * @param contextRef
+	 * @return
+	 */
+	public static List<String> createRowImpactSQL(
+			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext,
+			String tablename, String contextRef) {
+		List<String> rowInsertSQLs = new ArrayList<String>();
+		// TODO 生成行列式数据的插入SQL语句
+        
+		return rowInsertSQLs;
+	}
+
 	/**
+	 * 
+	 * 生成导数的SQL语句，处理映射成关系型数据库表的元素
 	 * 
 	 * @param resInTable
 	 *            一个表的映射关系
@@ -110,9 +135,9 @@ public class InsToDataUtils {
 	 *            上下文的内容
 	 * @return
 	 */
-	public static String createImpactSQL(List<RelationMapping> rsInTable,
-			List<ItemElement> iesSameContext, String tablename,
-			String contextRef) {
+	public static String createRelationImpactSQL(
+			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext,
+			String tablename, String contextRef) {
 		String fieldNames = "ID" + ",";
 		String valueString = "'" + random32() + "',";
 		int elementCount = 0;

@@ -35,7 +35,7 @@ public class ImportService {
 		byte[] instance = readInstance(instanceFile);
 		// 把实例文档的数据导入到相应的数据库表
 		ImptodbUtils ib = new ImptodbUtils();
-		String rltInfo = ib.putInstanceTOdata(instance);
+		String rltInfo = ib.putInstanceToData(instance);
 		int quotePosition = rltInfo.indexOf("::");
 		if (quotePosition > -1) {
 			return rltInfo.substring(quotePosition + 2, rltInfo.length());

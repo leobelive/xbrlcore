@@ -25,7 +25,7 @@ public class ImptodbUtils {
 	 * @param instance
 	 *            实例文档的二进制代码
 	 */
-	public String putInstanceTOdata(byte[] instance) {
+	public String putInstanceToData(byte[] instance) {
 		// 声明返回变量
 		Map<String, List<String>> m_dealSql = new HashMap<String, List<String>>();
 		InstanceDocument instanceDocument = new InstanceDocument();
