@@ -82,18 +82,38 @@ public class InsToDataUtils {
 		List<String> insertSQLs = new ArrayList<String>();
 		List<String> deleteSQLs = new ArrayList<String>();
 		for (String key1 : m_rm.keySet()) {
+			String[] tnfragiles = key1.split("_");
+			if (tnfragiles.length == 0) {
+				System.out.println("The " + key1 + " is illegal!");
+				continue;
+			}
 			for (String key2 : m_itemWithContextRef.keySet()) {
-				String deleteSQL = createDeleteSQL(key1, key2, m_rm.get(key1));
-				String insertSQL = createRelationImpactSQL(m_rm.get(key1),
-						m_itemWithContextRef.get(key2), key1, key2);
-				List<String> rowInsertSqls = createRowImpactSQL(m_rm.get(key1),
-						m_itemWithContextRef.get(key2), key1, key2);
-				deleteSQLs.add(deleteSQL);
-				if (!insertSQL.equalsIgnoreCase("NOSQL")) {
-					insertSQLs.add(insertSQL);
-				}
-				if (rowInsertSqls != null) {
-					insertSQLs.addAll(rowInsertSqls);
+				if (tnfragiles[0].equalsIgnoreCase("RD")) {
+					// 生成删除原有数据的SQL语句，以上下文为条件
+					String deleteSQL = createRelationDeleteSQL(key1, key2,
+							m_rm.get(key1));
+					deleteSQLs.add(deleteSQL);
+					// 生成导入到关系型数据库表的SQL语句
+					String insertSQL = createRelationImpactSQL(m_rm.get(key1),
+							m_itemWithContextRef.get(key2), key1, key2);
+					if (!insertSQL.equalsIgnoreCase("NOSQL")) {
+						insertSQLs.add(insertSQL);
+					}
+				} else if (tnfragiles[0].equalsIgnoreCase("LT")) {
+					// 生成删除原有数据的SQL语句，以上下文为条件
+					String deleteSQL = createRowDeleteSQL(key1, key2);
+					deleteSQLs.add(deleteSQL);
+					// 生成导入到行式数据库表的SQL语句
+					List<String> rowInsertSqls = createRowImpactSQL(
+							m_rm.get(key1), m_itemWithContextRef.get(key2),
+							key1, key2);
+					if (rowInsertSqls != null) {
+						insertSQLs.addAll(rowInsertSqls);
+					}
+				} else {
+					System.out.println("The " + key1 + " is illegal, "
+							+ "not the RD type or LT type");
+					continue;
 				}
 			}
 		}
@@ -106,6 +126,8 @@ public class InsToDataUtils {
 	/***
 	 * 生成导数的SQL语句，处理映射成行列式数据库表的元素
 	 * 
+	 * 由于行式数据库表的字段都是固定的,所以拼接SQL语句也是采用固定的方式
+	 * 
 	 * @param rsInTable
 	 * @param iesSameContext
 	 * @param tablename
@@ -116,8 +138,36 @@ public class InsToDataUtils {
 			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext,
 			String tablename, String contextRef) {
 		List<String> rowInsertSQLs = new ArrayList<String>();
-		// TODO 生成行列式数据的插入SQL语句
-        
+		for (RelationMapping rm : rsInTable) {
+			for (ItemElement ie : iesSameContext) {
+				if (rm.getElementName().equals(
+						ie.getPrefix() + ":" + ie.getName())) {
+					// 生成ID的column和value
+					String fieldNames = "ID" + ",";
+					String valueString = "'" + random32() + "',";
+					// 生成元素的column和value
+					fieldNames = fieldNames + "ELEMENTNAME" + ",";
+					valueString = valueString + "'" + rm.getElementName()
+							+ "',";
+					// 生成元素对应的值的column和value
+					fieldNames = fieldNames + "ELEMENTVALUE" + ",";
+					valueString = valueString + "'" + ie.getValue() + "',";
+					// 生成元素对应的上下文的column和value
+					fieldNames = fieldNames + "CONTEXTREF" + ",";
+					valueString = valueString + "'" + ie.getContextRef() + "',";
+					// 生成元素对应的单位上下文的column和value
+					fieldNames = fieldNames + "UINTREF" + ",";
+					valueString = valueString + "'" + ie.getUnitRef() + "',";
+					// 生成数据创建的时间戳
+					fieldNames = fieldNames + "CREATETIME";
+					valueString = valueString + "sysdate";
+					/************ 拼接insertSQL语句 **************/
+					String insertSql = "insert into " + tablename + " ("
+							+ fieldNames + ") values (" + valueString + ")";
+					rowInsertSQLs.add(insertSql);
+				}
+			}
+		}
 		return rowInsertSQLs;
 	}
 
@@ -158,10 +208,12 @@ public class InsToDataUtils {
 			}
 		}
 		if (elementCount > 0) {
-			String insertSql = "insert into " + tablename + " ("
-					+ fieldNames.substring(0, fieldNames.length() - 1)
-					+ ") values ("
-					+ valueString.substring(0, valueString.length() - 1) + ")";
+			// 添加创建数据的时间戳
+			fieldNames += "CREATETIME";
+			valueString += "sysdate";
+			/************ 拼接insertSQL语句 **************/
+			String insertSql = "insert into " + tablename + " (" + fieldNames
+					+ ") values (" + valueString + ")";
 			return insertSql;
 		} else {
 			return "NOSQL";
@@ -181,8 +233,8 @@ public class InsToDataUtils {
 	 *            相关的映射内容
 	 * @return
 	 */
-	public static String createDeleteSQL(String tablename, String contextRef,
-			List<RelationMapping> rsInTable) {
+	public static String createRelationDeleteSQL(String tablename,
+			String contextRef, List<RelationMapping> rsInTable) {
 		String contextColumn = "";
 		for (RelationMapping rs : rsInTable) {
 			if (rs.getParten().equalsIgnoreCase("2")) {
@@ -191,6 +243,20 @@ public class InsToDataUtils {
 			}
 		}
 		return "delete from " + tablename + " where " + contextColumn + " = '"
+				+ contextRef + "'";
+	}
+
+	/**
+	 * 返回行式类型表的删除语句
+	 * 
+	 * @param tablename
+	 *            表名
+	 * @param contextRef
+	 *            上下文值
+	 * @return
+	 */
+	public static String createRowDeleteSQL(String tablename, String contextRef) {
+		return "delete from " + tablename + " where CONTEXTREF = '"
 				+ contextRef + "'";
 	}
 }

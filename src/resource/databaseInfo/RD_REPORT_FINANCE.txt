@@ -1,5 +1,5 @@
 -- Create table
-create table REPORT_FINANCE
+create table RD_REPORT_FINANCE
 (
   id                    VARCHAR2(32) not null,
   security_code         VARCHAR2(30),
@@ -21,64 +21,67 @@ create table REPORT_FINANCE
   sgpr                  NUMBER(6,2),
   stamp                 TIMESTAMP(6),
   is_delete             NUMBER,
-  contextref            VARCHAR2(100)
+  contextref            VARCHAR2(100),
+  createtime            DATE
 );
 -- Add comments to the table 
-comment on table REPORT_FINANCE
+comment on table RD_REPORT_FINANCE
   is '半年报和年报统计报告（财务）';
 -- Add comments to the columns 
-comment on column REPORT_FINANCE.id
+comment on column RD_REPORT_FINANCE.id
   is 'ID';
-comment on column REPORT_FINANCE.security_code
+comment on column RD_REPORT_FINANCE.security_code
   is '证券代码';
-comment on column REPORT_FINANCE.security_name
+comment on column RD_REPORT_FINANCE.security_name
   is '证券简称
 ';
-comment on column REPORT_FINANCE.accounting_year
+comment on column RD_REPORT_FINANCE.accounting_year
   is '会计年度
 ';
-comment on column REPORT_FINANCE.area
+comment on column RD_REPORT_FINANCE.area
   is '所属地区
 ';
-comment on column REPORT_FINANCE.securities
+comment on column RD_REPORT_FINANCE.securities
   is '主办券商
 ';
-comment on column REPORT_FINANCE.capital_stock
+comment on column RD_REPORT_FINANCE.capital_stock
   is '股本（元）';
-comment on column REPORT_FINANCE.total_assets
+comment on column RD_REPORT_FINANCE.total_assets
   is '总资产（元）';
-comment on column REPORT_FINANCE.yoy_growth
+comment on column RD_REPORT_FINANCE.yoy_growth
   is '同比增长（%）';
-comment on column REPORT_FINANCE.operating_revenues
+comment on column RD_REPORT_FINANCE.operating_revenues
   is '营业收入（元）';
-comment on column REPORT_FINANCE.net_profit
+comment on column RD_REPORT_FINANCE.net_profit
   is '净利润（元）';
-comment on column REPORT_FINANCE.asset_liability_ratio
+comment on column RD_REPORT_FINANCE.asset_liability_ratio
   is '资产负债率%
 ';
-comment on column REPORT_FINANCE.basic_eps
+comment on column RD_REPORT_FINANCE.basic_eps
   is '基本每股收益%';
-comment on column REPORT_FINANCE.bvps
+comment on column RD_REPORT_FINANCE.bvps
   is '每股净资产（元）
 ';
-comment on column REPORT_FINANCE.bancf
+comment on column RD_REPORT_FINANCE.bancf
   is '经营活动净现金流（元）
 ';
-comment on column REPORT_FINANCE.net_assets
+comment on column RD_REPORT_FINANCE.net_assets
   is '净资产（元）
 ';
-comment on column REPORT_FINANCE.roe
+comment on column RD_REPORT_FINANCE.roe
   is '加权平均净资产收益率(%)
 ';
-comment on column REPORT_FINANCE.sgpr
+comment on column RD_REPORT_FINANCE.sgpr
   is '销售毛利率（%）';
-comment on column REPORT_FINANCE.stamp
+comment on column RD_REPORT_FINANCE.stamp
   is '时间戳';
-comment on column REPORT_FINANCE.is_delete
+comment on column RD_REPORT_FINANCE.is_delete
   is '是否删除';
-comment on column REPORT_FINANCE.contextref
+comment on column RD_REPORT_FINANCE.contextref
   is '上下文信息';
+comment on column RD_REPORT_FINANCE.createtime
+  is '数据创建的时间戳';
 -- Create/Recreate primary, unique and foreign key constraints 
-alter table REPORT_FINANCE
-  add constraint REPORT_FINANCE_PK primary key (ID)
+alter table RD_REPORT_FINANCE
+  add constraint RD_REPORT_FINANCE_PK primary key (ID)
   using index;

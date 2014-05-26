@@ -1,0 +1,24 @@
+------Create table
+------行式数据库表的一个范例
+create table LT_REPORT_TEMPORARY
+(
+  id           VARCHAR2(32),
+  elementname  VARCHAR2(1000),
+  elementvalue VARCHAR2(4000),
+  contextref   VARCHAR2(100),
+  uintref      VARCHAR2(100),
+  createtime   DATE
+);
+-- Add comments to the columns 
+comment on column LT_REPORT_TEMPORARY.id
+  is '唯一标识符';
+comment on column LT_REPORT_TEMPORARY.elementname
+  is '元素名称';
+comment on column LT_REPORT_TEMPORARY.elementvalue
+  is '元素值';
+comment on column LT_REPORT_TEMPORARY.contextref
+  is '上下文信息';
+comment on column LT_REPORT_TEMPORARY.uintref
+  is '单位上下文';
+comment on column LT_REPORT_TEMPORARY.createtime
+  is '创建时间戳';

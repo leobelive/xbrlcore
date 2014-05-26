@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.gbicc.xbrl.ent.model.BasicInfo;
-import net.gbicc.xbrl.ent.model.PublicAccount;
 import net.gbicc.xbrl.ent.model.RelationMapping;
 
 import org.apache.commons.logging.Log;
@@ -34,7 +33,7 @@ public class SqlUtils {
 			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			String sql = "select ELEMENTNAME, FIELDNAME, TABLENAME, "
-					+ "TYPE, PARTEN from TD_RELATION where tablename = '"
+					+ "TYPE, PARTEN from TD_ELEMENT_COLUMN_RELATION where tablename = '"
 					+ tablename + "'";
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -77,7 +76,7 @@ public class SqlUtils {
 		try {
 			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
-			String sql = "select distinct (TABLENAME) from TD_RELATION where type = 1";
+			String sql = "select distinct (TABLENAME) from TD_ELEMENT_COLUMN_RELATION where type = 1";
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
 				columns.add(rs.getString("TABLENAME"));
@@ -109,7 +108,7 @@ public class SqlUtils {
 	 * @return
 	 */
 	public static List<BasicInfo> getBasicInfos(String name, String type) {
-		List list = new LinkedList();
+		List<BasicInfo> list = new LinkedList<BasicInfo>();
 		Connection conn = null;
 		Statement st = null;
 		String sql = "select elementName,fieldName ,tableName from "
@@ -160,7 +159,7 @@ public class SqlUtils {
 			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			flag = true;
+			flag = rs.next();
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = false;
@@ -178,14 +177,19 @@ public class SqlUtils {
 
 		}
 		return flag;
-
 	}
 
-	public static List getBasicInfoByType(String type) {
-		List list = new ArrayList();
+	/**
+	 * 以类型为条件，查询基础信息
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static List<String> getBasicInfoByType(String type) {
+		List<String> list = new ArrayList<String>();
 		Connection conn = null;
 		Statement st = null;
-		String sql = "select distinct(tableName) from TD_RELATION t"
+		String sql = "select distinct(tableName) from TD_ELEMENT_COLUMN_RELATION t"
 				+ " where t.type = '" + type + "' and t.fieldname is null";
 		try {
 			conn = connectionUtil.getConnection();
@@ -212,53 +216,14 @@ public class SqlUtils {
 		}
 	}
 
-	public static List<PublicAccount> getPartenS(String tableName) {
-		Connection conn = null;
-		Statement st = null;
-		List list = new LinkedList();
-		String sql = " select ACCT_CODE,ACCT_CNAME,ACCT_ENAME,ACCT_CLASS,REMARK_INFO "
-				+ "from TD_PUBLIC_ACCOUNT where ACCT_CODE in"
-				+ "(select t.parten from td_relation t where t.fieldname is not null and t.tablename='"
-				+ tableName + "'group by t.parten) and ACCT_ENAME is null";
-		try {
-			conn = connectionUtil.getConnection();
-			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				PublicAccount publicAccount = new PublicAccount();
-				publicAccount.setCode(rs.getString("ACCT_CODE"));
-				publicAccount.setcName(rs.getString("ACCT_CNAME").toString());
-				publicAccount.seteName(rs.getString("ACCT_ENAME"));
-				publicAccount.setTableName(rs.getString("ACCT_CLASS"));
-				publicAccount.setRemarkInfo(rs.getString("REMARK_INFO"));
-				list.add(publicAccount);
-			}
-			return list;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			return null;
-		} finally {
-			try {
-				if (st != null) {
-					st.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public static List<BasicInfo> getBasicInfosItem(String tableName,
 			String parten) {
 		Connection conn = null;
 		Statement st = null;
-		List list = new LinkedList();
+		List<BasicInfo> list = new LinkedList<BasicInfo>();
 		String sql = "select elementName,fieldName ,tableName from "
-				+ "TD_RELATION t where t.tablename ='" + tableName
-				+ "' and t.parten ='" + parten + "'";
+				+ "TD_ELEMENT_COLUMN_RELATION t where t.tablename ='"
+				+ tableName + "' and t.parten ='" + parten + "'";
 		try {
 			conn = connectionUtil.getConnection();
 			st = conn.createStatement();
@@ -297,8 +262,8 @@ public class SqlUtils {
 	public static int getTuples(String name) {
 		Connection conn = null;
 		Statement st = null;
-		String sql = " select count(*) from td_relation where tableName in("
-				+ "select  t.tablename from td_relation t where t.elementname ='"
+		String sql = " select count(*) from TD_ELEMENT_COLUMN_RELATION where tableName in("
+				+ "select  t.tablename from TD_ELEMENT_COLUMN_RELATION t where t.elementname ='"
 				+ name + "' )" + "and type='tuple' and fieldname is null";
 		try {
 			conn = connectionUtil.getConnection();
@@ -326,50 +291,6 @@ public class SqlUtils {
 		}
 	}
 
-	public static List<BasicInfo> getBasicInfoByAccount(String name, String type) {
-		Connection conn = null;
-		Statement st = null;
-		List list = new LinkedList();
-		String sql = "select elementName,fieldName ,tableName,a.acct_cname parten "
-				+ "from td_relation r ,td_public_account a where "
-				+ "  r.parten = a.acct_code and tableName in("
-				+ "select t.tablename from td_relation t where t.elementname ='"
-				+ name
-				+ "')"
-				+ "and parten in("
-				+ "select a.acct_code from td_public_account a where a.acct_ename='"
-				+ name + "') and type ='" + type + "'";
-		try {
-			conn = connectionUtil.getConnection();
-			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-
-			if (rs.next()) {
-				BasicInfo basicInfo = new BasicInfo();
-				basicInfo.setElementName(rs.getString("elementName"));
-				basicInfo.setFieldName(rs.getString("fieldName"));
-				basicInfo.setTableName(rs.getString("tableName"));
-				basicInfo.setParten(rs.getString("parten"));
-				list.add(basicInfo);
-			}
-			return list;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			return null;
-		} finally {
-			try {
-				if (st != null) {
-					st.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	/**
 	 * 执行多个SQL，最后提交
 	 * 
@@ -378,8 +299,7 @@ public class SqlUtils {
 	 * @throws Exception
 	 * @throws Exception
 	 */
-
-	public static void executeSQLs(List sqlList) throws SQLException {
+	public static void executeSQLs(List<String> sqlList) throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
 		try {
@@ -387,7 +307,6 @@ public class SqlUtils {
 			con = connectionUtil.getConnection();
 			con.setAutoCommit(false);
 			stmt = con.createStatement();
-			StringBuffer sb = new StringBuffer();
 			for (int ii = 0; ii < sqlList.size(); ii++) {
 				if (sqlList.get(ii) != null) {
 					stmt.addBatch((String) sqlList.get(ii));

@@ -1,5 +1,5 @@
 -- Create table
-create table TD_RELATION
+create table TD_ELEMENT_COLUMN_RELATION
 (
   id          VARCHAR2(32) not null,
   elementname VARCHAR2(200),
@@ -9,20 +9,20 @@ create table TD_RELATION
   parten      VARCHAR2(200)
 );
 -- Add comments to the table 
-comment on table TD_RELATION
+comment on table TD_ELEMENT_COLUMN_RELATION
   is '元素和结构数据库存放表';
 -- Add comments to the columns 
-comment on column TD_RELATION.elementname
+comment on column TD_ELEMENT_COLUMN_RELATION.elementname
   is '分类标准元素的名称';
-comment on column TD_RELATION.fieldname
+comment on column TD_ELEMENT_COLUMN_RELATION.fieldname
   is '对应的数据库表字段名称';
-comment on column TD_RELATION.tablename
+comment on column TD_ELEMENT_COLUMN_RELATION.tablename
   is '对应的数据库表名称';
-comment on column TD_RELATION.type
+comment on column TD_ELEMENT_COLUMN_RELATION.type
   is '存放数据库的类型';
-comment on column TD_RELATION.parten
+comment on column TD_ELEMENT_COLUMN_RELATION.parten
   is '数据库的区块';
 -- Create/Recreate primary, unique and foreign key constraints 
-alter table TD_RELATION
-  add constraint TD_RELATION_PK primary key (ID)
+alter table TD_ELEMENT_COLUMN_RELATION
+  add constraint TD_ELEMENT_COLUMN_RELATION_PK primary key (ID)
   using index;
