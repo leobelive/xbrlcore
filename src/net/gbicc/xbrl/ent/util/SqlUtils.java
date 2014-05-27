@@ -254,7 +254,7 @@ public class SqlUtils {
 	}
 
 	/**
-	 * 查找具有相同表名的TUPLE的元素个数
+	 * 查找具有相同表名的tuple的元素个数
 	 * 
 	 * @param name
 	 * @return

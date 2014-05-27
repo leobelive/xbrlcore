@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.gbicc.xbrl.ent.model.GeneImport;
 import net.gbicc.xbrl.ent.model.ItemElement;
 import net.gbicc.xbrl.ent.model.RelationMapping;
 import net.gbicc.xbrl.ent.model.TupleElement;
@@ -28,8 +29,8 @@ public class InsToDataUtils {
 	 * @param ies
 	 * @return
 	 */
-	public static Map<String, List<String>> dealAllElements(
-			List<ItemElement> ies, List<TupleElement> tes) {
+	public static List<GeneImport> dealAllElements(List<ItemElement> ies,
+			List<TupleElement> tes) {
 		// 读取配置信息中存放item类型数据的表
 		List<String> tables = SqlUtils.getTableNames();
 		// 按照表名称遍历配置信息，读取每个table的详细Mapping信息，以tableName为主键
@@ -75,12 +76,8 @@ public class InsToDataUtils {
 			}
 			m_itemWithContextRef.put(ref, itemWithContext);
 		}
-		//
-		/*********************************** 生成SQL的处理 *************************************/
-		// 调用createImpactSQL生成insertSQL的列表
-		Map<String, List<String>> m_dealSql = new HashMap<String, List<String>>();
-		List<String> insertSQLs = new ArrayList<String>();
-		List<String> deleteSQLs = new ArrayList<String>();
+		/**************** 调用createImpartSQL和createRowImpartSQL方法生成数据导入的基本因子的列表 *********************/
+		List<GeneImport> ls_dealGene = new ArrayList<GeneImport>();
 		for (String key1 : m_rm.keySet()) {
 			String[] tnfragiles = key1.split("_");
 			if (tnfragiles.length == 0) {
@@ -89,26 +86,37 @@ public class InsToDataUtils {
 			}
 			for (String key2 : m_itemWithContextRef.keySet()) {
 				if (tnfragiles[0].equalsIgnoreCase("RD")) {
-					// 生成删除原有数据的SQL语句，以上下文为条件
-					String deleteSQL = createRelationDeleteSQL(key1, key2,
-							m_rm.get(key1));
-					deleteSQLs.add(deleteSQL);
 					// 生成导入到关系型数据库表的SQL语句
-					String insertSQL = createRelationImpactSQL(m_rm.get(key1),
-							m_itemWithContextRef.get(key2), key1, key2);
-					if (!insertSQL.equalsIgnoreCase("NOSQL")) {
-						insertSQLs.add(insertSQL);
+					Map<String, String> cfv = createRelationImpartSQL(
+							m_rm.get(key1), m_itemWithContextRef.get(key2));
+					if (cfv != null && cfv.keySet().size() >= 3) {
+						GeneImport gi = new GeneImport();
+						// 设置导入因子的表名
+						gi.setTableName(key1);
+						// 设置导入因子的上下文值
+						gi.setCongtextrefvl(key2);
+						// 设置上下文对应的字段
+						gi.setContextcolumn(cfv.get("contextColumn"));
+						// 设置导入需要的字段字符串
+						gi.setFieldString(cfv.get("fieldString"));
+						// 设置需要导入值的字符串
+						gi.setValueString(cfv.get("valueString"));
+						// 生成删除原有数据的SQL语句，以上下文为条件,并且设置
+						String deleteSQL = createRelationDeleteSQL(key1, key2,
+								m_rm.get(key1));
+						gi.setDeleteSqlstr(deleteSQL);
+						// 加入到列表中
+						ls_dealGene.add(gi);
 					}
 				} else if (tnfragiles[0].equalsIgnoreCase("LT")) {
 					// 生成删除原有数据的SQL语句，以上下文为条件
 					String deleteSQL = createRowDeleteSQL(key1, key2);
-					deleteSQLs.add(deleteSQL);
 					// 生成导入到行式数据库表的SQL语句
-					List<String> rowInsertSqls = createRowImpactSQL(
-							m_rm.get(key1), m_itemWithContextRef.get(key2),
-							key1, key2);
-					if (rowInsertSqls != null) {
-						insertSQLs.addAll(rowInsertSqls);
+					List<GeneImport> rowGeneList = createRowImpactSQL(key1,
+							key2, deleteSQL, m_rm.get(key1),
+							m_itemWithContextRef.get(key2));
+					if (rowGeneList != null) {
+						ls_dealGene.addAll(rowGeneList);
 					}
 				} else {
 					System.out.println("The " + key1 + " is illegal, "
@@ -117,10 +125,7 @@ public class InsToDataUtils {
 				}
 			}
 		}
-		m_dealSql.put("INSERT", insertSQLs);
-		m_dealSql.put("DELETE", deleteSQLs);
-		// 返回生成的数据插入SQL语句
-		return m_dealSql;
+		return ls_dealGene;
 	}
 
 	/***
@@ -128,18 +133,28 @@ public class InsToDataUtils {
 	 * 
 	 * 由于行式数据库表的字段都是固定的,所以拼接SQL语句也是采用固定的方式
 	 * 
-	 * @param rsInTable
-	 * @param iesSameContext
-	 * @param tablename
-	 * @param contextRef
+	 * @param tn
+	 *            导入数据的表名称
+	 * 
+	 * @param ctv
+	 *            上下文的值
+	 * 
+	 * @param dstr
+	 *            删除数据库表中数据的delete语句
+	 * 
+	 * @param rslst
+	 *            一个表的映射关系
+	 * 
+	 * @param ielst
+	 *            相同上下文的元素对象清单
+	 * 
 	 * @return
 	 */
-	public static List<String> createRowImpactSQL(
-			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext,
-			String tablename, String contextRef) {
-		List<String> rowInsertSQLs = new ArrayList<String>();
-		for (RelationMapping rm : rsInTable) {
-			for (ItemElement ie : iesSameContext) {
+	public static List<GeneImport> createRowImpactSQL(String tn, String ctv,
+			String dstr, List<RelationMapping> rslst, List<ItemElement> ielst) {
+		List<GeneImport> results = new ArrayList<GeneImport>();
+		for (RelationMapping rm : rslst) {
+			for (ItemElement ie : ielst) {
 				if (rm.getElementName().equals(
 						ie.getPrefix() + ":" + ie.getName())) {
 					// 生成ID的column和value
@@ -153,22 +168,35 @@ public class InsToDataUtils {
 					fieldNames = fieldNames + "ELEMENTVALUE" + ",";
 					valueString = valueString + "'" + ie.getValue() + "',";
 					// 生成元素对应的上下文的column和value
-					fieldNames = fieldNames + "CONTEXTREF" + ",";
-					valueString = valueString + "'" + ie.getContextRef() + "',";
+					// fieldNames = fieldNames + "CONTEXTREF" + ",";
+					// valueString = valueString + "'" + ie.getContextRef() +
+					// "',";
 					// 生成元素对应的单位上下文的column和value
-					fieldNames = fieldNames + "UINTREF" + ",";
+					fieldNames = fieldNames + "UNITREF" + ",";
 					valueString = valueString + "'" + ie.getUnitRef() + "',";
 					// 生成数据创建的时间戳
 					fieldNames = fieldNames + "CREATETIME";
 					valueString = valueString + "sysdate";
 					/************ 拼接insertSQL语句 **************/
-					String insertSql = "insert into " + tablename + " ("
-							+ fieldNames + ") values (" + valueString + ")";
-					rowInsertSQLs.add(insertSql);
+					GeneImport gi = new GeneImport();
+					// 设置导入因子的表名
+					gi.setTableName(tn);
+					// 设置导入因子的上下文值
+					gi.setCongtextrefvl(ctv);
+					// 设置上下文对应的字段
+					gi.setContextcolumn("CONTEXTREF");
+					// 设置导入需要的字段字符串
+					gi.setFieldString(fieldNames);
+					// 设置需要导入值的字符串
+					gi.setValueString(valueString);
+					// 删除清空数据的SQL语句
+					gi.setDeleteSqlstr(dstr);
+					// 加入到列表中
+					results.add(gi);
 				}
 			}
 		}
-		return rowInsertSQLs;
+		return results;
 	}
 
 	/**
@@ -177,24 +205,24 @@ public class InsToDataUtils {
 	 * 
 	 * @param resInTable
 	 *            一个表的映射关系
+	 * 
 	 * @param iesSameContext
 	 *            相同上下文的元素对象清单
-	 * @param tablename
-	 *            插入的目标表
-	 * @param contextRef
-	 *            上下文的内容
-	 * @return
+	 * 
+	 * @return 一个Map,这个map包含三个键值，分别是contextColumn，fieldString和valueString，
+	 *         其value值则存放上下文的字段名称、拼接的字段连接字符串和拼接的值字符串
 	 */
-	public static String createRelationImpactSQL(
-			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext,
-			String tablename, String contextRef) {
+	public static Map<String, String> createRelationImpartSQL(
+			List<RelationMapping> rsInTable, List<ItemElement> iesSameContext) {
+		Map<String, String> results = new HashMap<String, String>();
 		String fieldNames = "ID" + ",";
 		String valueString = "'" + random32() + "',";
 		int elementCount = 0;
 		for (RelationMapping rs : rsInTable) {
 			if (rs.getParten().equalsIgnoreCase("2")) {
-				fieldNames += rs.getFieldName() + ",";
-				valueString += "'" + contextRef + "',";
+				// fieldNames += rs.getFieldName() + ",";
+				// valueString += "'" + contextRef + "',";
+				results.put("contextColumn", rs.getFieldName());
 				continue;
 			}
 			for (ItemElement ie : iesSameContext) {
@@ -211,12 +239,19 @@ public class InsToDataUtils {
 			// 添加创建数据的时间戳
 			fieldNames += "CREATETIME";
 			valueString += "sysdate";
-			/************ 拼接insertSQL语句 **************/
-			String insertSql = "insert into " + tablename + " (" + fieldNames
-					+ ") values (" + valueString + ")";
-			return insertSql;
+			/************
+			 * 拼接insertSQL语句，暂时不用这个方法
+			 * 
+			 * 还是分成两个字符串，一个存放列表，一个存放数据值
+			 * 
+			 * **************/
+			// String insertSql = "insert into " + tablename + " (" + fieldNames
+			// + ") values (" + valueString + ")";
+			results.put("fieldString", fieldNames);
+			results.put("valueString", valueString);
+			return results;
 		} else {
-			return "NOSQL";
+			return null;
 		}
 	}
 

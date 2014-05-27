@@ -33,9 +33,21 @@ public class ImportService {
 				+ "430002_GB0301_20080630_V01.xml";
 		File instanceFile = new File(instancePath);
 		byte[] instance = readInstance(instanceFile);
+		// TODO 得到实例文档名称中包含的报告类型和报告年度信息
+		String rpScope = "20080630";
+		String rptr = "GB0301";
+		String rpType = "";
+		switch (rptr) {
+		case "GB0301":
+			rpType = "9503-1002";
+		case "GB0302":
+			rpType = "9503-1001";
+		default:
+			rpType = "9503-1002";
+		}
 		// 把实例文档的数据导入到相应的数据库表
 		ImptodbUtils ib = new ImptodbUtils();
-		String rltInfo = ib.putInstanceToData(instance);
+		String rltInfo = ib.mainImpartFun(instance, rpScope, rpType);
 		int quotePosition = rltInfo.indexOf("::");
 		if (quotePosition > -1) {
 			return rltInfo.substring(quotePosition + 2, rltInfo.length());
