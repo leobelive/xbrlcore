@@ -62,8 +62,8 @@ public class ImptodbUtils {
 			}
 		}
 		// 保存SQL语句到本地,方便检查
-		Calendar calendar = Calendar.getInstance();
-		writeSQLTOfile(insertSQLS, "sql" + calendar.getTimeInMillis());
+		//Calendar calendar = Calendar.getInstance();
+		//writeSQLTOfile(insertSQLS, "sql" + calendar.getTimeInMillis());
 
 		// 执行SQL语句，插入数据,先执行清空语句，再执行数据插入语句
 		try {

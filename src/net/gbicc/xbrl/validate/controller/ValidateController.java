@@ -71,7 +71,7 @@ public class ValidateController {
 	public String FirstPage(@PathVariable Integer p1, Model model) {
 		List<ValidateObject> result = new ArrayList<ValidateObject>();
 		try {
-			result = validateService.returnErrorList();
+			result = validateService.returnErrorList("");
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

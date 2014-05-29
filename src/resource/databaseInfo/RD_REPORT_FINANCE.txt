@@ -9,7 +9,6 @@ create table RD_REPORT_FINANCE
   securities            VARCHAR2(50),
   capital_stock         NUMBER(20,2),
   total_assets          NUMBER(20,2),
-  yoy_growth            NUMBER(6,2),
   operating_revenues    NUMBER(20,2),
   net_profit            NUMBER(20,2),
   asset_liability_ratio NUMBER(6,2),
@@ -22,7 +21,9 @@ create table RD_REPORT_FINANCE
   stamp                 TIMESTAMP(6),
   is_delete             NUMBER,
   contextref            VARCHAR2(100),
-  createtime            DATE
+  createtime            DATE,
+  report_type           VARCHAR2(30),
+  already_sync          NUMBER
 );
 -- Add comments to the table 
 comment on table RD_REPORT_FINANCE
@@ -48,8 +49,6 @@ comment on column RD_REPORT_FINANCE.capital_stock
   is '股本（元）';
 comment on column RD_REPORT_FINANCE.total_assets
   is '总资产（元）';
-comment on column RD_REPORT_FINANCE.yoy_growth
-  is '同比增长（%）';
 comment on column RD_REPORT_FINANCE.operating_revenues
   is '营业收入（元）';
 comment on column RD_REPORT_FINANCE.net_profit
@@ -81,6 +80,10 @@ comment on column RD_REPORT_FINANCE.contextref
   is '上下文信息';
 comment on column RD_REPORT_FINANCE.createtime
   is '数据创建的时间戳';
+comment on column RD_REPORT_FINANCE.report_type
+  is '报告的类型';
+comment on column RD_REPORT_FINANCE.already_sync
+  is '已经同步标志';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table RD_REPORT_FINANCE
   add constraint RD_REPORT_FINANCE_PK primary key (ID)

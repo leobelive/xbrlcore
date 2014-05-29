@@ -5,8 +5,6 @@ values ('8a814dd43214bf6e013214ceff5206f2', 'dis-core:ZhengQuanDaiMa', 'SECURITY
 insert into TD_ELEMENT_COLUMN_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f3', 'dis-core:ZhengQuanJianChen', 'SECURITY_NAME', 'RD_REPORT_FINANCE', '1', '1');
 insert into TD_ELEMENT_COLUMN_RELATION (id, elementname, fieldname, tablename, type, parten)
-values ('8a814dd43214bf6e013214ceffd7e6f4', 'dis-core:GuaPaiShiJian', 'ACCOUNTING_YEAR', 'RD_REPORT_FINANCE', '1', '1');
-insert into TD_ELEMENT_COLUMN_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f4', 'dis-core:BanGongDiZhi', 'AREA', 'RD_REPORT_FINANCE', '1', '1');
 insert into TD_ELEMENT_COLUMN_RELATION (id, elementname, fieldname, tablename, type, parten)
 values ('8a814dd43214bf6e013214ceff5206f5', 'dis-core:ZhuBanQuanShangMingCheng', 'SECURITIES', 'RD_REPORT_FINANCE', '1', '1');

@@ -32,11 +32,12 @@ public class ValidateService {
 	 * @return 校验结果
 	 * @throws IOException
 	 */
-	public List<ValidateObject> returnErrorList() throws IOException {
+	public List<ValidateObject> returnErrorList(String instancePath)
+			throws IOException {
 		// 读取实例文档
 		String rootPath = this.getClass().getResource("").getPath();
 		rootPath = rootPath.substring(0, rootPath.indexOf("classes") + 8);
-		String instancePath = rootPath + "instances/"
+		instancePath = rootPath + "instances/"
 				+ "430002_GB0301_20080630_V01.xml";
 		File instanceFile = new File(instancePath);
 		String fileName = instanceFile.getName();

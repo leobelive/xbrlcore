@@ -30,7 +30,10 @@ create table RD_REPORT_NORMAL
   contextref        VARCHAR2(100),
   mbc_num           NUMBER,
   smc_num           NUMBER,
-  createtime        DATE
+  createtime        DATE,
+  accounting_year   VARCHAR2(20),
+  report_type       VARCHAR2(32),
+  already_sync      NUMBER
 );
 -- Add comments to the table 
 comment on table RD_REPORT_NORMAL
@@ -96,6 +99,12 @@ comment on column RD_REPORT_NORMAL.smc_num
   is '总经理变动人数';
 comment on column RD_REPORT_NORMAL.createtime
   is '创建数据的时间戳';
+comment on column RD_REPORT_NORMAL.accounting_year
+  is '会计年度';
+comment on column RD_REPORT_NORMAL.report_type
+  is '报告类型(年报/半年报)';
+comment on column RD_REPORT_NORMAL.already_sync
+  is '已经同步标志';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table RD_REPORT_NORMAL
   add constraint RD_REPORT_NORMAL_PK primary key (ID)
