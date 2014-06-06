@@ -25,7 +25,7 @@ XBRL关键功能的实现范例 包括有XBRL实例文档校验、XBRL实例文�
     方法内部调用validateInstance（）方法，对分类标准进行校验并得到校验结果，最后对校验结果进行分析，得到校验的可读内容。
     
 调用流程如下图所示：
-![image](https://github.com/joephoenix/xbrlcore/blob/master/validateFlow.jpg)
+![image](https://raw.githubusercontent.com/joephoenix/xbrlcore/master/validateFlow.jpg)
 
 
 
