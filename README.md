@@ -23,6 +23,9 @@ XBRL关键功能的实现范例 包括有XBRL实例文档校验、XBRL实例文�
     第四个参数是“实例文档名称和id”；
     主要流程是先加载分类标准的根地址和引用路径，得到分类标准的缓存；
     方法内部调用validateInstance（）方法，对分类标准进行校验并得到校验结果，最后对校验结果进行分析，得到校验的可读内容。
+    
+调用流程如下图所示：
+https://github.com/joephoenix/xbrlcore/blob/master/validateFlow.jpg
 
 
 
