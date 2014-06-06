@@ -44,8 +44,7 @@ public class ConnectionUtil {
 	private DBConfig getConfig() throws IOException {
 		DBConfig dbc = new DBConfig();
 		// 生成配置文件的路径
-		String rootPath = this.getClass().getResource("").getPath();
-		rootPath = rootPath.substring(0, rootPath.indexOf("classes") + 8);
+		String rootPath = this.getClass().getResource("/").getPath();
 		String pPath = rootPath + "configuration/" + "jdbc.properties";
 		Properties p = new Properties();
 		p.load(new FileInputStream(new File(pPath)));
